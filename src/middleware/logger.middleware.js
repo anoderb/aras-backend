@@ -1,6 +1,12 @@
 const winston = require('winston');
 const path = require('path');
+const fs = require('fs');
 const config = require('../config/app.config');
+
+const logDir = path.dirname(path.resolve(config.log.fileError));
+if (!fs.existsSync(logDir)) {
+  fs.mkdirSync(logDir, { recursive: true });
+}
 
 const logger = winston.createLogger({
   level: config.log.level || 'info',
@@ -12,17 +18,16 @@ const logger = winston.createLogger({
   ),
   defaultMeta: { service: config.app.nama },
   transports: [
-    new winston.transports.File({ 
-      filename: path.join(config.log.dir, 'error.log'), 
-      level: 'error' 
+    new winston.transports.File({
+      filename: path.resolve(config.log.fileError),
+      level: 'error'
     }),
-    new winston.transports.File({ 
-      filename: path.join(config.log.dir, 'combined.log') 
+    new winston.transports.File({
+      filename: path.resolve(config.log.fileCombined)
     }),
   ],
 });
 
-// Jika di development, log ke console juga
 if (config.app.env !== 'production') {
   logger.add(new winston.transports.Console({
     format: winston.format.combine(
