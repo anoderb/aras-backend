@@ -6,63 +6,63 @@ class NutrisiController {
     try {
       const { halaman, per_halaman } = req.query;
       const { data, meta } = await NutrisiService.riwayat(req.user.id, halaman, per_halaman);
-      return res.status(200).json({ status: true, kode: 200, pesan: 'Riwayat makanan berhasil diambil', data, meta });
+      berhasil(res, data, 'Riwayat makanan berhasil diambil', 200, meta);
     } catch (error) {
-      return res.status(500).json(gagal(error.message));
+      gagal(res, error.message, 500);
     }
   }
 
   async tambahMakanan(req, res) {
     try {
       await NutrisiService.tambah(req.user.id, req.body);
-      return res.status(201).json(berhasil('Log makanan berhasil disimpan'));
+      berhasil(res, null, 'Log makanan berhasil disimpan', 201);
     } catch (error) {
-      return res.status(400).json(gagal(error.message));
+      gagal(res, error.message, 400);
     }
   }
 
   async detailMakanan(req, res) {
     try {
       const data = await NutrisiService.detail(req.user.id, req.params.id);
-      return res.status(200).json(berhasil('Detail makanan berhasil diambil', data));
+      berhasil(res, data, 'Detail makanan berhasil diambil');
     } catch (error) {
-      return res.status(404).json(gagal(error.message));
+      gagal(res, error.message, 404);
     }
   }
 
   async updateMakanan(req, res) {
     try {
       const data = await NutrisiService.update(req.user.id, req.params.id, req.body);
-      return res.status(200).json(berhasil('Log makanan berhasil diperbarui', data));
+      berhasil(res, data, 'Log makanan berhasil diperbarui');
     } catch (error) {
-      return res.status(400).json(gagal(error.message));
+      gagal(res, error.message, 400);
     }
   }
 
   async hapusMakanan(req, res) {
     try {
       await NutrisiService.hapus(req.user.id, req.params.id);
-      return res.status(200).json(berhasil('Log makanan berhasil dihapus'));
+      berhasil(res, null, 'Log makanan berhasil dihapus');
     } catch (error) {
-      return res.status(400).json(gagal(error.message));
+      gagal(res, error.message, 400);
     }
   }
 
   async ringkasanHarian(req, res) {
     try {
       const data = await NutrisiService.ringkasanHarian(req.user.id);
-      return res.status(200).json(berhasil('Ringkasan nutrisi harian berhasil diambil', data));
+      berhasil(res, data, 'Ringkasan nutrisi harian berhasil diambil');
     } catch (error) {
-      return res.status(500).json(gagal(error.message));
+      gagal(res, error.message, 500);
     }
   }
 
   async grafik(req, res) {
     try {
       const data = await NutrisiService.grafik(req.user.id);
-      return res.status(200).json(berhasil('Grafik nutrisi berhasil diambil', data));
+      berhasil(res, data, 'Grafik nutrisi berhasil diambil');
     } catch (error) {
-      return res.status(500).json(gagal(error.message));
+      gagal(res, error.message, 500);
     }
   }
 
@@ -70,27 +70,27 @@ class NutrisiController {
   async cariMakanan(req, res) {
     try {
       const data = await NutrisiService.cariMakanan(req.query.q || '');
-      return res.status(200).json(berhasil('Hasil pencarian makanan', data));
+      berhasil(res, data, 'Hasil pencarian makanan');
     } catch (error) {
-      return res.status(500).json(gagal(error.message));
+      gagal(res, error.message, 500);
     }
   }
 
   async cariBarcode(req, res) {
     try {
       const data = await NutrisiService.cariBarcode(req.params.kode);
-      return res.status(200).json(berhasil('Hasil scan barcode', data));
+      berhasil(res, data, 'Hasil scan barcode');
     } catch (error) {
-      return res.status(500).json(gagal(error.message));
+      gagal(res, error.message, 500);
     }
   }
 
   async databaseLokal(req, res) {
     try {
       const data = await NutrisiService.databaseLokal();
-      return res.status(200).json(berhasil('Database makanan lokal', data));
+      berhasil(res, data, 'Database makanan lokal');
     } catch (error) {
-      return res.status(500).json(gagal(error.message));
+      gagal(res, error.message, 500);
     }
   }
 }

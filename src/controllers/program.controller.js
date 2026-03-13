@@ -6,45 +6,45 @@ class ProgramController {
   async programSaya(req, res) {
     try {
       const data = await ProgramService.daftarProgramUser(req.user.id);
-      return res.status(200).json(berhasil('Daftar program berhasil diambil', data));
+      berhasil(res, data, 'Daftar program berhasil diambil');
     } catch (error) {
-      return res.status(500).json(gagal(error.message));
+      gagal(res, error.message, 500);
     }
   }
 
   async detailProgram(req, res) {
     try {
       const data = await ProgramService.detailProgram(req.params.id, req.user.id, req.user.peran);
-      return res.status(200).json(berhasil('Detail program berhasil diambil', data));
+      berhasil(res, data, 'Detail program berhasil diambil');
     } catch (error) {
-      return res.status(404).json(gagal(error.message));
+      gagal(res, error.message, 404);
     }
   }
 
   async tugasHariIni(req, res) {
     try {
       const data = await ProgramService.getTugasHariIni(req.params.id, req.user.id);
-      return res.status(200).json(berhasil('Tugas hari ini berhasil diambil', data));
+      berhasil(res, data, 'Tugas hari ini berhasil diambil');
     } catch (error) {
-      return res.status(400).json(gagal(error.message));
+      gagal(res, error.message, 400);
     }
   }
 
   async updateProgres(req, res) {
     try {
       await ProgramService.updateProgresTugas(req.params.tugas_id, req.user.id, req.body);
-      return res.status(200).json(berhasil('Progres tugas berhasil diperbarui'));
+      berhasil(res, null, 'Progres tugas berhasil diperbarui');
     } catch (error) {
-      return res.status(400).json(gagal(error.message));
+      gagal(res, error.message, 400);
     }
   }
 
   async progresKeseluruhan(req, res) {
     try {
       const data = await ProgramService.getProgresKeseluruhan(req.params.id, req.user.id);
-      return res.status(200).json(berhasil('Progres keseluruhan program berhasil diambil', data));
+      berhasil(res, data, 'Progres keseluruhan program berhasil diambil');
     } catch (error) {
-      return res.status(400).json(gagal(error.message));
+      gagal(res, error.message, 400);
     }
   }
 
@@ -52,36 +52,36 @@ class ProgramController {
   async daftarProgramDokter(req, res) {
     try {
       const data = await ProgramService.daftarProgramDokter(req.user.id);
-      return res.status(200).json(berhasil('Daftar program yang dibuat berhasil diambil', data));
+      berhasil(res, data, 'Daftar program yang dibuat berhasil diambil');
     } catch (error) {
-      return res.status(500).json(gagal(error.message));
+      gagal(res, error.message, 500);
     }
   }
 
   async buatProgram(req, res) {
     try {
       const data = await ProgramService.buatProgram(req.user.id, req.body);
-      return res.status(201).json(berhasil('Program kesehatan berhasil dibuat', data));
+      berhasil(res, data, 'Program kesehatan berhasil dibuat', 201);
     } catch (error) {
-      return res.status(400).json(gagal(error.message));
+      gagal(res, error.message, 400);
     }
   }
 
   async tambahTugas(req, res) {
     try {
       const data = await ProgramService.tambahTugas(req.params.id, req.user.id, req.body);
-      return res.status(201).json(berhasil('Tugas berhasil ditambahkan ke program', data));
+      berhasil(res, data, 'Tugas berhasil ditambahkan ke program', 201);
     } catch (error) {
-      return res.status(400).json(gagal(error.message));
+      gagal(res, error.message, 400);
     }
   }
 
   async progresPasien(req, res) {
     try {
       const data = await ProgramService.detailProgram(req.params.id, req.user.id, 'dokter');
-      return res.status(200).json(berhasil('Progres pasien berhasil diambil', data.statistik));
+      berhasil(res, data.statistik, 'Progres pasien berhasil diambil');
     } catch (error) {
-      return res.status(400).json(gagal(error.message));
+      gagal(res, error.message, 400);
     }
   }
 }

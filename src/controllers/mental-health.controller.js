@@ -6,9 +6,9 @@ class MentalHealthController {
     try {
       const { tipe } = req.query;
       const data = await MentalHealthService.getScreeningQuestions(tipe || 'phq-9');
-      return res.status(200).json(berhasil('Soal skrining berhasil diambil', data));
+      berhasil(res, data, 'Soal skrining berhasil diambil');
     } catch (error) {
-      return res.status(500).json(gagal(error.message));
+      gagal(res, error.message, 500);
     }
   }
 
@@ -18,18 +18,18 @@ class MentalHealthController {
       if (!tipe || !jawaban) throw new Error('Tipe dan jawaban wajib diisi');
       
       const data = await MentalHealthService.hitungSkor(req.user.id, tipe, jawaban);
-      return res.status(200).json(berhasil('Hasil skrining berhasil diproses', data));
+      berhasil(res, data, 'Hasil skrining berhasil diproses');
     } catch (error) {
-      return res.status(400).json(gagal(error.message));
+      gagal(res, error.message, 400);
     }
   }
 
   async statistikMood(req, res) {
     try {
       const data = await MentalHealthService.analisisMood(req.user.id);
-      return res.status(200).json(berhasil('Statistik mood berhasil diambil', data));
+      berhasil(res, data, 'Statistik mood berhasil diambil');
     } catch (error) {
-      return res.status(500).json(gagal(error.message));
+      gagal(res, error.message, 500);
     }
   }
 }

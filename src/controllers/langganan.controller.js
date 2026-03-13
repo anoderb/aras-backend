@@ -5,18 +5,18 @@ class LanggananController {
   async status(req, res) {
     try {
       const data = await LanggananService.cekStatus(req.user.id);
-      return res.status(200).json(berhasil('Status langganan berhasil diambil', data));
+      berhasil(res, data, 'Status langganan berhasil diambil');
     } catch (error) {
-      return res.status(500).json(gagal(error.message));
+      gagal(res, error.message, 500);
     }
   }
 
   async aktivasi(req, res) {
     try {
       await LanggananService.aktivasiPenuh(req.user.id);
-      return res.status(200).json(berhasil('Aktivasi langganan berhasil (Promo Launching)'));
+      berhasil(res, null, 'Aktivasi langganan berhasil (Promo Launching)');
     } catch (error) {
-      return res.status(500).json(gagal(error.message));
+      gagal(res, error.message, 500);
     }
   }
 }

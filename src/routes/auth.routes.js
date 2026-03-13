@@ -1,7 +1,7 @@
 const router = require('express').Router();
 const AuthController = require('../controllers/auth.controller');
 const validate = require('../middleware/validate.middleware');
-const { auth } = require('../middleware/auth.middleware');
+const auth = require('../middleware/auth.middleware');
 const authValidation = require('../validations/auth.validation');
 
 router.post('/daftar', validate(authValidation.daftarSchema), AuthController.daftar);

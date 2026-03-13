@@ -5,18 +5,18 @@ class ObatController {
   async daftarAktif(req, res) {
     try {
       const data = await ObatService.daftarAktif(req.user.id);
-      return res.status(200).json(berhasil('Daftar obat aktif berhasil diambil', data));
+      berhasil(res, data, 'Daftar obat aktif berhasil diambil');
     } catch (error) {
-      return res.status(500).json(gagal(error.message));
+      gagal(res, error.message, 500);
     }
   }
 
   async tambah(req, res) {
     try {
       const id = await ObatService.tambah(req.user.id, req.body);
-      return res.status(201).json(berhasil('Obat berhasil ditambahkan', { id }));
+      berhasil(res, { id }, 'Obat berhasil ditambahkan', 201);
     } catch (error) {
-      return res.status(400).json(gagal(error.message));
+      gagal(res, error.message, 400);
     }
   }
 
@@ -24,63 +24,63 @@ class ObatController {
     try {
       const { halaman, per_halaman } = req.query;
       const { data, meta } = await ObatService.riwayat(req.user.id, halaman, per_halaman);
-      return res.status(200).json({ status: true, kode: 200, pesan: 'Riwayat obat berhasil diambil', data, meta });
+      berhasil(res, data, 'Riwayat obat berhasil diambil', 200, meta);
     } catch (error) {
-      return res.status(500).json(gagal(error.message));
+      gagal(res, error.message, 500);
     }
   }
 
   async detail(req, res) {
     try {
       const data = await ObatService.detail(req.user.id, req.params.id);
-      return res.status(200).json(berhasil('Detail obat berhasil diambil', data));
+      berhasil(res, data, 'Detail obat berhasil diambil');
     } catch (error) {
-      return res.status(404).json(gagal(error.message));
+      gagal(res, error.message, 404);
     }
   }
 
   async update(req, res) {
     try {
       const data = await ObatService.update(req.user.id, req.params.id, req.body);
-      return res.status(200).json(berhasil('Data obat berhasil diperbarui', data));
+      berhasil(res, data, 'Data obat berhasil diperbarui');
     } catch (error) {
-      return res.status(400).json(gagal(error.message));
+      gagal(res, error.message, 400);
     }
   }
 
   async hapus(req, res) {
     try {
       await ObatService.hapus(req.user.id, req.params.id);
-      return res.status(200).json(berhasil('Obat berhasil dihapus'));
+      berhasil(res, null, 'Obat berhasil dihapus');
     } catch (error) {
-      return res.status(400).json(gagal(error.message));
+      gagal(res, error.message, 400);
     }
   }
 
   async nonaktifkan(req, res) {
     try {
       await ObatService.nonaktifkan(req.user.id, req.params.id);
-      return res.status(200).json(berhasil('Obat berhasil dinonaktifkan'));
+      berhasil(res, null, 'Obat berhasil dinonaktifkan');
     } catch (error) {
-      return res.status(400).json(gagal(error.message));
+      gagal(res, error.message, 400);
     }
   }
 
   async logMinum(req, res) {
     try {
       await ObatService.logMinum(req.user.id, req.params.id, req.body);
-      return res.status(201).json(berhasil('Log minum obat berhasil dicatat'));
+      berhasil(res, null, 'Log minum obat berhasil dicatat', 201);
     } catch (error) {
-      return res.status(400).json(gagal(error.message));
+      gagal(res, error.message, 400);
     }
   }
 
   async statistikKepatuhan(req, res) {
     try {
       const data = await ObatService.statistikKepatuhan(req.user.id, req.params.id);
-      return res.status(200).json(berhasil('Statistik kepatuhan obat berhasil diambil', data));
+      berhasil(res, data, 'Statistik kepatuhan obat berhasil diambil');
     } catch (error) {
-      return res.status(500).json(gagal(error.message));
+      gagal(res, error.message, 500);
     }
   }
 
@@ -88,18 +88,18 @@ class ObatController {
   async cariObat(req, res) {
     try {
       const data = await ObatService.cariObat(req.query.q || '');
-      return res.status(200).json(berhasil('Hasil pencarian obat', data));
+      berhasil(res, data, 'Hasil pencarian obat');
     } catch (error) {
-      return res.status(500).json(gagal(error.message));
+      gagal(res, error.message, 500);
     }
   }
 
   async cariBarcode(req, res) {
     try {
       const data = await ObatService.cariBarcode(req.params.kode);
-      return res.status(200).json(berhasil('Hasil scan barcode obat', data));
+      berhasil(res, data, 'Hasil scan barcode obat');
     } catch (error) {
-      return res.status(500).json(gagal(error.message));
+      gagal(res, error.message, 500);
     }
   }
 
@@ -107,9 +107,9 @@ class ObatController {
     try {
       const { obat } = req.query; // Expecting array or comma-separated
       const data = await ObatService.cekInteraksi(obat);
-      return res.status(200).json(berhasil('Hasil cek interaksi obat', data));
+      berhasil(res, data, 'Hasil cek interaksi obat');
     } catch (error) {
-      return res.status(500).json(gagal(error.message));
+      gagal(res, error.message, 500);
     }
   }
 }

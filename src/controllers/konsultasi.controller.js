@@ -7,54 +7,54 @@ class KonsultasiController {
     try {
       const { halaman, per_halaman } = req.query;
       const { data, meta } = await KonsultasiService.riwayatUser(req.user.id, halaman, per_halaman);
-      return res.status(200).json({ status: true, kode: 200, pesan: 'Riwayat konsultasi berhasil diambil', data, meta });
+      berhasil(res, data, 'Riwayat konsultasi berhasil diambil', 200, meta);
     } catch (error) {
-      return res.status(500).json(gagal(error.message));
+      gagal(res, error.message, 500);
     }
   }
 
   async mulai(req, res) {
     try {
       const data = await KonsultasiService.mulaiKonsultasi(req.user.id, req.body);
-      return res.status(201).json(berhasil('Sesi konsultasi berhasil dibuat', data));
+      berhasil(res, data, 'Sesi konsultasi berhasil dibuat', 201);
     } catch (error) {
-      return res.status(400).json(gagal(error.message));
+      gagal(res, error.message, 400);
     }
   }
 
   async detail(req, res) {
     try {
       const data = await KonsultasiService.detailKonsultasi(req.params.id, req.user.id, req.user.peran);
-      return res.status(200).json(berhasil('Detail konsultasi berhasil diambil', data));
+      berhasil(res, data, 'Detail konsultasi berhasil diambil');
     } catch (error) {
-      return res.status(404).json(gagal(error.message));
+      gagal(res, error.message, 404);
     }
   }
 
   async selesai(req, res) {
     try {
       const data = await KonsultasiService.updateStatus(req.params.id, req.user.id, req.user.peran, 'selesai');
-      return res.status(200).json(berhasil('Konsultasi telah diselesaikan', data));
+      berhasil(res, data, 'Konsultasi telah diselesaikan');
     } catch (error) {
-      return res.status(400).json(gagal(error.message));
+      gagal(res, error.message, 400);
     }
   }
 
   async batalkan(req, res) {
     try {
       const data = await KonsultasiService.updateStatus(req.params.id, req.user.id, req.user.peran, 'dibatalkan');
-      return res.status(200).json(berhasil('Konsultasi telah dibatalkan', data));
+      berhasil(res, data, 'Konsultasi telah dibatalkan');
     } catch (error) {
-      return res.status(400).json(gagal(error.message));
+      gagal(res, error.message, 400);
     }
   }
 
   async beriRating(req, res) {
     try {
       await KonsultasiService.beriRating(req.params.id, req.user.id, req.body);
-      return res.status(200).json(berhasil('Rating berhasil diberikan'));
+      berhasil(res, null, 'Rating berhasil diberikan');
     } catch (error) {
-      return res.status(400).json(gagal(error.message));
+      gagal(res, error.message, 400);
     }
   }
 
@@ -62,9 +62,9 @@ class KonsultasiController {
   async ambilPesan(req, res) {
     try {
       const data = await KonsultasiService.ambilPesan(req.params.id, req.user.id, req.user.peran);
-      return res.status(200).json(berhasil('Daftar pesan berhasil diambil', data));
+      berhasil(res, data, 'Daftar pesan berhasil diambil');
     } catch (error) {
-      return res.status(500).json(gagal(error.message));
+      gagal(res, error.message, 500);
     }
   }
 
@@ -76,18 +76,18 @@ class KonsultasiController {
         url_file: req.body.url_file
       };
       const data = await KonsultasiService.kirimPesan(req.params.id, req.user.id, req.user.peran, payload);
-      return res.status(201).json(berhasil('Pesan terkirim', data));
+      berhasil(res, data, 'Pesan terkirim', 201);
     } catch (error) {
-      return res.status(400).json(gagal(error.message));
+      gagal(res, error.message, 400);
     }
   }
 
   async tandaiBaca(req, res) {
     try {
       await KonsultasiService.ambilPesan(req.params.id, req.user.id, req.user.peran); // reuse logic
-      return res.status(200).json(berhasil('Semua pesan ditandai telah dibaca'));
+      berhasil(res, null, 'Semua pesan ditandai telah dibaca');
     } catch (error) {
-      return res.status(500).json(gagal(error.message));
+      gagal(res, error.message, 500);
     }
   }
 
@@ -95,27 +95,27 @@ class KonsultasiController {
   async konsultasiAktif(req, res) {
     try {
       const { data, meta } = await KonsultasiService.riwayatDokter(req.user.id, 'aktif', req.query.halaman, req.query.per_halaman);
-      return res.status(200).json({ status: true, kode: 200, pesan: 'Konsultasi aktif berhasil diambil', data, meta });
+      berhasil(res, data, 'Konsultasi aktif berhasil diambil', 200, meta);
     } catch (error) {
-      return res.status(500).json(gagal(error.message));
+      gagal(res, error.message, 500);
     }
   }
 
   async antrian(req, res) {
     try {
       const { data, meta } = await KonsultasiService.riwayatDokter(req.user.id, 'menunggu', req.query.halaman, req.query.per_halaman);
-      return res.status(200).json({ status: true, kode: 200, pesan: 'Antrian konsultasi berhasil diambil', data, meta });
+      berhasil(res, data, 'Antrian konsultasi berhasil diambil', 200, meta);
     } catch (error) {
-      return res.status(500).json(gagal(error.message));
+      gagal(res, error.message, 500);
     }
   }
 
   async terima(req, res) {
     try {
       const data = await KonsultasiService.updateStatus(req.params.id, req.user.id, req.user.peran, 'aktif');
-      return res.status(200).json(berhasil('Konsultasi diterima', data));
+      berhasil(res, data, 'Konsultasi diterima');
     } catch (error) {
-      return res.status(400).json(gagal(error.message));
+      gagal(res, error.message, 400);
     }
   }
 
@@ -123,9 +123,9 @@ class KonsultasiController {
     try {
       const { catatan_dokter, resep } = req.body;
       const data = await KonsultasiService.updateStatus(req.params.id, req.user.id, req.user.peran, req.user.peran === 'dokter' ? null : 'selesai', { catatan_dokter, resep });
-      return res.status(200).json(berhasil('Catatan dokter berhasil ditambahkan', data));
+      berhasil(res, data, 'Catatan dokter berhasil ditambahkan');
     } catch (error) {
-      return res.status(400).json(gagal(error.message));
+      gagal(res, error.message, 400);
     }
   }
 }

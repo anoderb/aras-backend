@@ -5,45 +5,45 @@ class NotifikasiController {
   async daftar(req, res) {
     try {
       const data = await NotifikasiService.daftarNotifikasi(req.user.id);
-      return res.status(200).json(berhasil('Daftar notifikasi berhasil diambil', data));
+      berhasil(res, data, 'Daftar notifikasi berhasil diambil');
     } catch (error) {
-      return res.status(500).json(gagal(error.message));
+      gagal(res, error.message, 500);
     }
   }
 
   async belumDibaca(req, res) {
     try {
       const total = await NotifikasiService.jumlahBelumDibaca(req.user.id);
-      return res.status(200).json(berhasil('Jumlah notifikasi belum dibaca berhasil diambil', { total }));
+      berhasil(res, { total }, 'Jumlah notifikasi belum dibaca berhasil diambil');
     } catch (error) {
-      return res.status(500).json(gagal(error.message));
+      gagal(res, error.message, 500);
     }
   }
 
   async baca(req, res) {
     try {
       await NotifikasiService.bacaNotifikasi(req.params.id, req.user.id);
-      return res.status(200).json(berhasil('Notifikasi ditandai sebagai dibaca'));
+      berhasil(res, null, 'Notifikasi ditandai sebagai dibaca');
     } catch (error) {
-      return res.status(400).json(gagal(error.message));
+      gagal(res, error.message, 400);
     }
   }
 
   async bacaSemua(req, res) {
     try {
       await NotifikasiService.bacaSemua(req.user.id);
-      return res.status(200).json(berhasil('Semua notifikasi ditandai sebagai dibaca'));
+      berhasil(res, null, 'Semua notifikasi ditandai sebagai dibaca');
     } catch (error) {
-      return res.status(500).json(gagal(error.message));
+      gagal(res, error.message, 500);
     }
   }
 
   async hapus(req, res) {
     try {
       await NotifikasiService.hapusNotifikasi(req.params.id, req.user.id);
-      return res.status(200).json(berhasil('Notifikasi berhasil dihapus'));
+      berhasil(res, null, 'Notifikasi berhasil dihapus');
     } catch (error) {
-      return res.status(400).json(gagal(error.message));
+      gagal(res, error.message, 400);
     }
   }
 }

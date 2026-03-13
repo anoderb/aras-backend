@@ -2,7 +2,7 @@
  * Format response API standar ARAS
  */
 
-const berhasil = (res, data, pesan = 'Data berhasil diambil', kode = 200, meta = null) => {
+const berhasil = (res, data = null, pesan = 'Data berhasil diambil', kode = 200, meta = null) => {
   return res.status(kode).json({
     status: true,
     kode,

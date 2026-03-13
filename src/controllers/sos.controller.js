@@ -6,9 +6,9 @@ class SOSController {
     try {
       const { lat, lng } = req.body;
       const data = await SOSService.aktifkanSOS(req.user.id, lat, lng);
-      return res.status(200).json(berhasil('Mode darurat SOS diaktifkan!', data));
+      berhasil(res, data, 'Mode darurat SOS diaktifkan!');
     } catch (error) {
-      return res.status(400).json(gagal(error.message));
+      gagal(res, error.message, 400);
     }
   }
 
@@ -16,36 +16,36 @@ class SOSController {
     try {
       const { lat, lng } = req.query;
       const data = await SOSService.rsTerdekat(lat, lng);
-      return res.status(200).json(berhasil('Daftar RS terdekat saat darurat berhasil diambil', data));
+      berhasil(res, data, 'Daftar RS terdekat saat darurat berhasil diambil');
     } catch (error) {
-      return res.status(400).json(gagal(error.message));
+      gagal(res, error.message, 400);
     }
   }
 
   async notifKontak(req, res) {
     try {
       const data = await SOSService.notifKontakDarurat(req.user.id);
-      return res.status(200).json(berhasil('Notifikasi ke kontak darurat berhasil dikirim', data));
+      berhasil(res, data, 'Notifikasi ke kontak darurat berhasil dikirim');
     } catch (error) {
-      return res.status(400).json(gagal(error.message));
+      gagal(res, error.message, 400);
     }
   }
 
   async ringkasan(req, res) {
     try {
       const data = await SOSService.ringkasanKesehatan(req.user.id);
-      return res.status(200).json(berhasil('Ringkasan data darurat berhasil diambil', data));
+      berhasil(res, data, 'Ringkasan data darurat berhasil diambil');
     } catch (error) {
-      return res.status(400).json(gagal(error.message));
+      gagal(res, error.message, 400);
     }
   }
 
   async nonaktifkan(req, res) {
     try {
       const data = await SOSService.nonaktifkanSOS(req.user.id);
-      return res.status(200).json(berhasil('Mode darurat SOS dimatikan', data));
+      berhasil(res, data, 'Mode darurat SOS dimatikan');
     } catch (error) {
-      return res.status(400).json(gagal(error.message));
+      gagal(res, error.message, 400);
     }
   }
 }

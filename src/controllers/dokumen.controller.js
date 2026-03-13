@@ -7,45 +7,45 @@ class DokumenController {
       const { halaman, per_halaman, jenis } = req.query;
       const filter = { jenis };
       const { data, meta } = await DokumenService.daftar(req.user.id, filter, halaman, per_halaman);
-      return res.status(200).json({ status: true, kode: 200, pesan: 'Daftar dokumen berhasil diambil', data, meta });
+      berhasil(res, data, 'Daftar dokumen berhasil diambil', 200, meta);
     } catch (error) {
-      return res.status(500).json(gagal(error.message));
+      gagal(res, error.message, 500);
     }
   }
 
   async upload(req, res) {
     try {
       const id = await DokumenService.upload(req.user.id, req.body, req.file);
-      return res.status(201).json(berhasil('Dokumen berhasil diunggah', { id }));
+      berhasil(res, { id }, 'Dokumen berhasil diunggah', 201);
     } catch (error) {
-      return res.status(400).json(gagal(error.message));
+      gagal(res, error.message, 400);
     }
   }
 
   async detail(req, res) {
     try {
       const data = await DokumenService.detail(req.user.id, req.params.id);
-      return res.status(200).json(berhasil('Detail dokumen berhasil diambil', data));
+      berhasil(res, data, 'Detail dokumen berhasil diambil');
     } catch (error) {
-      return res.status(404).json(gagal(error.message));
+      gagal(res, error.message, 404);
     }
   }
 
   async update(req, res) {
     try {
       const data = await DokumenService.update(req.user.id, req.params.id, req.body);
-      return res.status(200).json(berhasil('Data dokumen berhasil diperbarui', data));
+      berhasil(res, data, 'Data dokumen berhasil diperbarui');
     } catch (error) {
-      return res.status(400).json(gagal(error.message));
+      gagal(res, error.message, 400);
     }
   }
 
   async hapus(req, res) {
     try {
       await DokumenService.hapus(req.user.id, req.params.id);
-      return res.status(200).json(berhasil('Dokumen berhasil dihapus'));
+      berhasil(res, null, 'Dokumen berhasil dihapus');
     } catch (error) {
-      return res.status(400).json(gagal(error.message));
+      gagal(res, error.message, 400);
     }
   }
 
@@ -53,9 +53,9 @@ class DokumenController {
     try {
       const { dokter_id } = req.params;
       const data = await DokumenService.bagikan(req.user.id, req.params.id, dokter_id);
-      return res.status(200).json(berhasil('Dokumen berhasil dibagikan', data));
+      berhasil(res, data, 'Dokumen berhasil dibagikan');
     } catch (error) {
-      return res.status(400).json(gagal(error.message));
+      gagal(res, error.message, 400);
     }
   }
 
@@ -63,9 +63,9 @@ class DokumenController {
     try {
       const { halaman, per_halaman } = req.query;
       const { data, meta } = await DokumenService.daftar(req.user.id, { jenis: 'hasil_lab' }, halaman, per_halaman);
-      return res.status(200).json({ status: true, kode: 200, pesan: 'Filter hasil lab berhasil diambil', data, meta });
+      berhasil(res, data, 'Filter hasil lab berhasil diambil', 200, meta);
     } catch (error) {
-      return res.status(500).json(gagal(error.message));
+      gagal(res, error.message, 500);
     }
   }
 
@@ -73,9 +73,9 @@ class DokumenController {
     try {
       const { halaman, per_halaman } = req.query;
       const { data, meta } = await DokumenService.daftar(req.user.id, { jenis: 'resep' }, halaman, per_halaman);
-      return res.status(200).json({ status: true, kode: 200, pesan: 'Filter resep berhasil diambil', data, meta });
+      berhasil(res, data, 'Filter resep berhasil diambil', 200, meta);
     } catch (error) {
-      return res.status(500).json(gagal(error.message));
+      gagal(res, error.message, 500);
     }
   }
 }

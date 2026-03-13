@@ -7,27 +7,27 @@ class DokterController {
     try {
       const { q, spesialisasi, halaman, per_halaman } = req.query;
       const { data, meta } = await DokterService.daftarDokter({ q, spesialisasi }, halaman, per_halaman);
-      return res.status(200).json({ status: true, kode: 200, pesan: 'Daftar dokter berhasil diambil', data, meta });
+      berhasil(res, data, 'Daftar dokter berhasil diambil', 200, meta);
     } catch (error) {
-      return res.status(500).json(gagal(error.message));
+      gagal(res, error.message, 500);
     }
   }
 
   async profilPublik(req, res) {
     try {
       const data = await DokterService.detailDokter(req.params.id);
-      return res.status(200).json(berhasil('Profil dokter berhasil diambil', data));
+      berhasil(res, data, 'Profil dokter berhasil diambil');
     } catch (error) {
-      return res.status(404).json(gagal(error.message));
+      gagal(res, error.message, 404);
     }
   }
 
   async daftarSpesialisasi(req, res) {
     try {
       const data = await DokterService.daftarSpesialisasi();
-      return res.status(200).json(berhasil('Daftar spesialisasi berhasil diambil', data));
+      berhasil(res, data, 'Daftar spesialisasi berhasil diambil');
     } catch (error) {
-      return res.status(500).json(gagal(error.message));
+      gagal(res, error.message, 500);
     }
   }
 
@@ -35,9 +35,9 @@ class DokterController {
     try {
       const { lat, lng } = req.query;
       const data = await DokterService.dokterTerdekat(lat, lng);
-      return res.status(200).json(berhasil('Daftar dokter terdekat berhasil diambil', data));
+      berhasil(res, data, 'Daftar dokter terdekat berhasil diambil');
     } catch (error) {
-      return res.status(500).json(gagal(error.message));
+      gagal(res, error.message, 500);
     }
   }
 
@@ -45,18 +45,18 @@ class DokterController {
   async lihatProfil(req, res) {
     try {
       const data = await DokterService.lihatProfilSendiri(req.user.id);
-      return res.status(200).json(berhasil('Profil dokter berhasil diambil', data));
+      berhasil(res, data, 'Profil dokter berhasil diambil');
     } catch (error) {
-      return res.status(404).json(gagal(error.message));
+      gagal(res, error.message, 404);
     }
   }
 
   async updateProfil(req, res) {
     try {
       const data = await DokterService.updateProfil(req.user.id, req.body);
-      return res.status(200).json(berhasil('Profil dokter berhasil diperbarui', data));
+      berhasil(res, data, 'Profil dokter berhasil diperbarui');
     } catch (error) {
-      return res.status(400).json(gagal(error.message));
+      gagal(res, error.message, 400);
     }
   }
 
@@ -64,18 +64,18 @@ class DokterController {
     try {
       const { status_online } = req.body;
       await DokterService.setKetersediaan(req.user.id, status_online);
-      return res.status(200).json(berhasil(`Status ketersediaan berhasil diubah menjadi ${status_online ? 'Online' : 'Offline'}`));
+      berhasil(res, null, `Status ketersediaan berhasil diubah menjadi ${status_online ? 'Online' : 'Offline'}`);
     } catch (error) {
-      return res.status(400).json(gagal(error.message));
+      gagal(res, error.message, 400);
     }
   }
 
   async statistik(req, res) {
     try {
       const data = await DokterService.statistik(req.user.id);
-      return res.status(200).json(berhasil('Statistik praktis dokter berhasil diambil', data));
+      berhasil(res, data, 'Statistik praktis dokter berhasil diambil');
     } catch (error) {
-      return res.status(500).json(gagal(error.message));
+      gagal(res, error.message, 500);
     }
   }
 
@@ -83,27 +83,27 @@ class DokterController {
   async antrianVerifikasi(req, res) {
     try {
       const data = await DokterService.antrianVerifikasi();
-      return res.status(200).json(berhasil('Antrian verifikasi dokter berhasil diambil', data));
+      berhasil(res, data, 'Antrian verifikasi dokter berhasil diambil');
     } catch (error) {
-      return res.status(500).json(gagal(error.message));
+      gagal(res, error.message, 500);
     }
   }
 
   async setujuiVerifikasi(req, res) {
     try {
       await DokterService.prosesVerifikasi(req.params.id, req.user.id, 'terverifikasi');
-      return res.status(200).json(berhasil('Verifikasi dokter berhasil disetujui'));
+      berhasil(res, null, 'Verifikasi dokter berhasil disetujui');
     } catch (error) {
-      return res.status(400).json(gagal(error.message));
+      gagal(res, error.message, 400);
     }
   }
 
   async tolakVerifikasi(req, res) {
     try {
       await DokterService.prosesVerifikasi(req.params.id, req.user.id, 'ditolak');
-      return res.status(200).json(berhasil('Verifikasi dokter telah ditolak'));
+      berhasil(res, null, 'Verifikasi dokter telah ditolak');
     } catch (error) {
-      return res.status(400).json(gagal(error.message));
+      gagal(res, error.message, 400);
     }
   }
 }

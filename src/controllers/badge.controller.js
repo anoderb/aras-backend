@@ -5,27 +5,27 @@ class BadgeController {
   async badgeSaya(req, res) {
     try {
       const data = await BadgeService.badgeSaya(req.user.id);
-      return res.status(200).json(berhasil('Daftar badge saya berhasil diambil', data));
+      berhasil(res, data, 'Daftar badge saya berhasil diambil');
     } catch (error) {
-      return res.status(500).json(gagal(error.message));
+      gagal(res, error.message, 500);
     }
   }
 
   async badgeTersedia(req, res) {
     try {
       const data = await BadgeService.badgeTersedia();
-      return res.status(200).json(berhasil('Daftar badge tersedia berhasil diambil', data));
+      berhasil(res, data, 'Daftar badge tersedia berhasil diambil');
     } catch (error) {
-      return res.status(500).json(gagal(error.message));
+      gagal(res, error.message, 500);
     }
   }
 
   async badgePengguna(req, res) {
     try {
       const data = await BadgeService.badgePenggunaLain(req.params.id);
-      return res.status(200).json(berhasil('Daftar badge pengguna berhasil diambil', data));
+      berhasil(res, data, 'Daftar badge pengguna berhasil diambil');
     } catch (error) {
-      return res.status(500).json(gagal(error.message));
+      gagal(res, error.message, 500);
     }
   }
 }

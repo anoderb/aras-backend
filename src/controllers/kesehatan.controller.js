@@ -6,45 +6,45 @@ class KesehatanController {
     try {
       const { halaman, per_halaman } = req.query;
       const { data, meta } = await KesehatanService.riwayat(req.user.id, halaman, per_halaman);
-      return res.status(200).json({ status: true, kode: 200, pesan: 'Riwayat kesehatan berhasil diambil', data, meta });
+      berhasil(res, data, 'Riwayat kesehatan berhasil diambil', 200, meta);
     } catch (error) {
-      return res.status(500).json(gagal(error.message));
+      gagal(res, error.message, 500);
     }
   }
 
   async tambah(req, res) {
     try {
       await KesehatanService.tambah(req.user.id, req.body);
-      return res.status(201).json(berhasil('Catatan kesehatan berhasil disimpan'));
+      berhasil(res, null, 'Catatan kesehatan berhasil disimpan', 201);
     } catch (error) {
-      return res.status(400).json(gagal(error.message));
+      gagal(res, error.message, 400);
     }
   }
 
   async detail(req, res) {
     try {
       const data = await KesehatanService.detail(req.user.id, req.params.id);
-      return res.status(200).json(berhasil('Detail catatan kesehatan berhasil diambil', data));
+      berhasil(res, data, 'Detail catatan kesehatan berhasil diambil');
     } catch (error) {
-      return res.status(404).json(gagal(error.message));
+      gagal(res, error.message, 404);
     }
   }
 
   async update(req, res) {
     try {
       const data = await KesehatanService.update(req.user.id, req.params.id, req.body);
-      return res.status(200).json(berhasil('Catatan kesehatan berhasil diperbarui', data));
+      berhasil(res, data, 'Catatan kesehatan berhasil diperbarui');
     } catch (error) {
-      return res.status(400).json(gagal(error.message));
+      gagal(res, error.message, 400);
     }
   }
 
   async hapus(req, res) {
     try {
       await KesehatanService.hapus(req.user.id, req.params.id);
-      return res.status(200).json(berhasil('Catatan kesehatan berhasil dihapus'));
+      berhasil(res, null, 'Catatan kesehatan berhasil dihapus');
     } catch (error) {
-      return res.status(400).json(gagal(error.message));
+      gagal(res, error.message, 400);
     }
   }
 
@@ -52,9 +52,9 @@ class KesehatanController {
     try {
       const rentang = req.query.rentang || 'minggu';
       const data = await KesehatanService.grafik(req.user.id, rentang);
-      return res.status(200).json(berhasil('Grafik kesehatan berhasil diambil', data));
+      berhasil(res, data, 'Grafik kesehatan berhasil diambil');
     } catch (error) {
-      return res.status(500).json(gagal(error.message));
+      gagal(res, error.message, 500);
     }
   }
 
@@ -62,18 +62,18 @@ class KesehatanController {
     try {
       const rentang = req.query.rentang || 'minggu';
       const data = await KesehatanService.ringkasan(req.user.id, rentang);
-      return res.status(200).json(berhasil('Ringkasan kesehatan berhasil diambil', data));
+      berhasil(res, data, 'Ringkasan kesehatan berhasil diambil');
     } catch (error) {
-      return res.status(500).json(gagal(error.message));
+      gagal(res, error.message, 500);
     }
   }
 
   async ekspor(req, res) {
     try {
       const data = await KesehatanService.ekspor(req.user.id);
-      return res.status(200).json(berhasil('Berhasil mengenerate laporan kesehatan', data));
+      berhasil(res, data, 'Berhasil mengenerate laporan kesehatan');
     } catch (error) {
-      return res.status(500).json(gagal(error.message));
+      gagal(res, error.message, 500);
     }
   }
 }

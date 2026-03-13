@@ -6,37 +6,36 @@ class SecondOpinionController {
   async riwayat(req, res) {
     try {
       const data = await SecondOpinionService.riwayatUser(req.user.id);
-      return res.status(200).json(berhasil('Riwayat second opinion berhasil diambil', data));
+      berhasil(res, data, 'Riwayat second opinion berhasil diambil');
     } catch (error) {
-      return res.status(500).json(gagal(error.message));
+      gagal(res, error.message, 500);
     }
   }
 
   async ajukan(req, res) {
     try {
       const data = await SecondOpinionService.ajukan(req.user.id, req.body);
-      return res.status(201).json(berhasil('Pengajuan second opinion berhasil dibuat', data));
+      berhasil(res, data, 'Pengajuan second opinion berhasil dibuat', 201);
     } catch (error) {
-      return res.status(400).json(gagal(error.message));
+      gagal(res, error.message, 400);
     }
   }
 
   async detail(req, res) {
     try {
       const data = await SecondOpinionService.detail(req.params.id, req.user.id, req.user.peran);
-      return res.status(200).json(berhasil('Detail second opinion berhasil diambil', data));
+      berhasil(res, data, 'Detail second opinion berhasil diambil');
     } catch (error) {
-      return res.status(404).json(gagal(error.message));
+      gagal(res, error.message, 404);
     }
   }
 
   async batalkan(req, res) {
     try {
-      // Small adjustment: updateStatus repo should handle this status
       await SecondOpinionService.batalkan(req.params.id, req.user.id);
-      return res.status(200).json(berhasil('Pengajuan telah dibatalkan'));
+      berhasil(res, null, 'Pengajuan telah dibatalkan');
     } catch (error) {
-      return res.status(400).json(gagal(error.message));
+      gagal(res, error.message, 400);
     }
   }
 
@@ -44,18 +43,18 @@ class SecondOpinionController {
   async antrianDokter(req, res) {
     try {
       const data = await SecondOpinionService.antrianDokter(req.user.id);
-      return res.status(200).json(berhasil('Antrian second opinion berhasil diambil', data));
+      berhasil(res, data, 'Antrian second opinion berhasil diambil');
     } catch (error) {
-      return res.status(500).json(gagal(error.message));
+      gagal(res, error.message, 500);
     }
   }
 
   async beriPendapat(req, res) {
     try {
       await SecondOpinionService.beriPendapat(req.params.id, req.user.id, req.body.pendapat_dokter);
-      return res.status(200).json(berhasil('Pendapat dokter berhasil dikirim'));
+      berhasil(res, null, 'Pendapat dokter berhasil dikirim');
     } catch (error) {
-      return res.status(400).json(gagal(error.message));
+      gagal(res, error.message, 400);
     }
   }
 }

@@ -5,9 +5,9 @@ class KronisController {
   async dashboard(req, res) {
     try {
       const data = await KronisService.dashboard(req.user.id);
-      return res.status(200).json(berhasil('Dashboard kronis berhasil diambil', data));
+      berhasil(res, data, 'Dashboard kronis berhasil diambil');
     } catch (error) {
-      return res.status(500).json(gagal(error.message));
+      gagal(res, error.message, 500);
     }
   }
 }

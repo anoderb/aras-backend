@@ -7,9 +7,9 @@ class ArtikelController {
     try {
       const { q, kategori, halaman, per_halaman } = req.query;
       const { data, meta } = await ArtikelService.daftarArtikel({ q, kategori }, halaman, per_halaman);
-      return res.status(200).json({ status: true, kode: 200, pesan: 'Daftar artikel berhasil diambil', data, meta });
+      berhasil(res, data, 'Daftar artikel berhasil diambil', 200, meta);
     } catch (error) {
-      return res.status(500).json(gagal(error.message));
+      gagal(res, error.message, 500);
     }
   }
 
@@ -17,18 +17,18 @@ class ArtikelController {
     try {
       const { limit } = req.query;
       const data = await ArtikelService.artikelPopuler(limit);
-      return res.status(200).json(berhasil('Artikel populer berhasil diambil', data));
+      berhasil(res, data, 'Artikel populer berhasil diambil');
     } catch (error) {
-      return res.status(500).json(gagal(error.message));
+      gagal(res, error.message, 500);
     }
   }
 
   async detail(req, res) {
     try {
       const data = await ArtikelService.detailArtikel(req.params.id);
-      return res.status(200).json(berhasil('Detail artikel berhasil diambil', data));
+      berhasil(res, data, 'Detail artikel berhasil diambil');
     } catch (error) {
-      return res.status(404).json(gagal(error.message));
+      gagal(res, error.message, 404);
     }
   }
 
@@ -36,27 +36,27 @@ class ArtikelController {
   async simpan(req, res) {
     try {
       await ArtikelService.simpanArtikel(req.user.id, req.params.id);
-      return res.status(200).json(berhasil('Artikel berhasil disimpan'));
+      berhasil(res, null, 'Artikel berhasil disimpan');
     } catch (error) {
-      return res.status(400).json(gagal(error.message));
+      gagal(res, error.message, 400);
     }
   }
 
   async hapusSimpan(req, res) {
     try {
       await ArtikelService.hapusSimpan(req.user.id, req.params.id);
-      return res.status(200).json(berhasil('Artikel berhasil dihapus dari simpanan'));
+      berhasil(res, null, 'Artikel berhasil dihapus dari simpanan');
     } catch (error) {
-      return res.status(400).json(gagal(error.message));
+      gagal(res, error.message, 400);
     }
   }
 
   async tersimpan(req, res) {
     try {
       const data = await ArtikelService.artikelTersimpan(req.user.id);
-      return res.status(200).json(berhasil('Daftar artikel tersimpan berhasil diambil', data));
+      berhasil(res, data, 'Daftar artikel tersimpan berhasil diambil');
     } catch (error) {
-      return res.status(500).json(gagal(error.message));
+      gagal(res, error.message, 500);
     }
   }
 
@@ -64,36 +64,36 @@ class ArtikelController {
   async saya(req, res) {
     try {
       const data = await ArtikelService.artikelSaya(req.user.id);
-      return res.status(200).json(berhasil('Daftar artikel saya berhasil diambil', data));
+      berhasil(res, data, 'Daftar artikel saya berhasil diambil');
     } catch (error) {
-      return res.status(500).json(gagal(error.message));
+      gagal(res, error.message, 500);
     }
   }
 
   async buat(req, res) {
     try {
       const data = await ArtikelService.buatArtikel(req.user.id, req.body);
-      return res.status(201).json(berhasil('Artikel berhasil dibuat', data));
+      berhasil(res, data, 'Artikel berhasil dibuat', 201);
     } catch (error) {
-      return res.status(400).json(gagal(error.message));
+      gagal(res, error.message, 400);
     }
   }
 
   async update(req, res) {
     try {
       const data = await ArtikelService.updateArtikel(req.params.id, req.user.id, req.body);
-      return res.status(200).json(berhasil('Artikel berhasil diperbarui', data));
+      berhasil(res, data, 'Artikel berhasil diperbarui');
     } catch (error) {
-      return res.status(400).json(gagal(error.message));
+      gagal(res, error.message, 400);
     }
   }
 
   async hapus(req, res) {
     try {
       await ArtikelService.hapusArtikel(req.params.id, req.user.id);
-      return res.status(200).json(berhasil('Artikel berhasil dihapus'));
+      berhasil(res, null, 'Artikel berhasil dihapus');
     } catch (error) {
-      return res.status(400).json(gagal(error.message));
+      gagal(res, error.message, 400);
     }
   }
 }

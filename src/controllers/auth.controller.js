@@ -5,7 +5,7 @@ const AuthController = {
   daftar: async (req, res, next) => {
     try {
       const result = await AuthService.daftar(req.body);
-      berhasil(res, 'Registrasi berhasil', 201, result);
+      berhasil(res, result, 'Registrasi berhasil', 201);
     } catch (error) {
       gagal(res, error.message, 400);
     }
@@ -14,7 +14,7 @@ const AuthController = {
   masuk: async (req, res, next) => {
     try {
       const result = await AuthService.masuk(req.body);
-      berhasil(res, 'Login berhasil', 200, result);
+      berhasil(res, result, 'Login berhasil', 200);
     } catch (error) {
       gagal(res, error.message, 401);
     }
@@ -23,7 +23,7 @@ const AuthController = {
   keluar: async (req, res, next) => {
     try {
       await AuthService.keluar(req.user.id);
-      berhasil(res, 'Berhasil keluar (logout)', 200);
+      berhasil(res, null, 'Berhasil keluar (logout)', 200);
     } catch (error) {
       gagal(res, error.message, 500);
     }
@@ -33,7 +33,7 @@ const AuthController = {
     try {
       const { refresh_token } = req.body;
       const tokens = await AuthService.refreshToken(refresh_token);
-      berhasil(res, 'Token berhasil diperbarui', 200, tokens);
+      berhasil(res, tokens, 'Token berhasil diperbarui', 200);
     } catch (error) {
       gagal(res, error.message, 401);
     }
@@ -42,7 +42,7 @@ const AuthController = {
   lupaSandi: async (req, res, next) => {
     try {
       const result = await AuthService.lupaSandi(req.body.email);
-      berhasil(res, result.pesan, 200);
+      berhasil(res, null, result.pesan, 200);
     } catch (error) {
       gagal(res, error.message, 400);
     }
@@ -51,7 +51,7 @@ const AuthController = {
   resetSandi: async (req, res, next) => {
     try {
       const result = await AuthService.resetSandi(req.body);
-      berhasil(res, 'Sandi berhasil direset', 200, result);
+      berhasil(res, result, 'Sandi berhasil direset', 200);
     } catch (error) {
       gagal(res, error.message, 400);
     }
@@ -60,7 +60,7 @@ const AuthController = {
   verifikasiEmail: async (req, res, next) => {
     try {
       await AuthService.verifikasiEmail(req.body.token);
-      berhasil(res, 'Email berhasil diverifikasi (SIMULASI)', 200);
+      berhasil(res, null, 'Email berhasil diverifikasi (SIMULASI)', 200);
     } catch (error) {
       gagal(res, error.message, 400);
     }
@@ -70,7 +70,7 @@ const AuthController = {
     try {
       const { email, tipe } = req.body;
       const result = await AuthService.kirimUlangOtp(email, tipe);
-      berhasil(res, result.pesan, 200);
+      berhasil(res, null, result.pesan, 200);
     } catch (error) {
       gagal(res, error.message, 400);
     }
@@ -80,7 +80,7 @@ const AuthController = {
     try {
       const { email, otp } = req.body;
       await AuthService.verifikasiOtp(email, otp);
-      berhasil(res, 'OTP berhasil diverifikasi (SIMULASI)', 200);
+      berhasil(res, null, 'OTP berhasil diverifikasi (SIMULASI)', 200);
     } catch (error) {
       gagal(res, error.message, 400);
     }

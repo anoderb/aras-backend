@@ -6,54 +6,54 @@ class AktivitasController {
     try {
       const { halaman, per_halaman } = req.query;
       const { data, meta } = await AktivitasService.riwayat(req.user.id, halaman, per_halaman);
-      return res.status(200).json({ status: true, kode: 200, pesan: 'Riwayat aktivitas berhasil diambil', data, meta });
+      berhasil(res, data, 'Riwayat aktivitas berhasil diambil', 200, meta);
     } catch (error) {
-      return res.status(500).json(gagal(error.message));
+      gagal(res, error.message, 500);
     }
   }
 
   async tambah(req, res) {
     try {
       await AktivitasService.tambah(req.user.id, req.body);
-      return res.status(201).json(berhasil('Log aktivitas berhasil disimpan'));
+      berhasil(res, null, 'Log aktivitas berhasil disimpan', 201);
     } catch (error) {
-      return res.status(400).json(gagal(error.message));
+      gagal(res, error.message, 400);
     }
   }
 
   async detail(req, res) {
     try {
       const data = await AktivitasService.detail(req.user.id, req.params.id);
-      return res.status(200).json(berhasil('Detail aktivitas berhasil diambil', data));
+      berhasil(res, data, 'Detail aktivitas berhasil diambil');
     } catch (error) {
-      return res.status(404).json(gagal(error.message));
+      gagal(res, error.message, 404);
     }
   }
 
   async update(req, res) {
     try {
       const data = await AktivitasService.update(req.user.id, req.params.id, req.body);
-      return res.status(200).json(berhasil('Log aktivitas berhasil diperbarui', data));
+      berhasil(res, data, 'Log aktivitas berhasil diperbarui');
     } catch (error) {
-      return res.status(400).json(gagal(error.message));
+      gagal(res, error.message, 400);
     }
   }
 
   async hapus(req, res) {
     try {
       await AktivitasService.hapus(req.user.id, req.params.id);
-      return res.status(200).json(berhasil('Log aktivitas berhasil dihapus'));
+      berhasil(res, null, 'Log aktivitas berhasil dihapus');
     } catch (error) {
-      return res.status(400).json(gagal(error.message));
+      gagal(res, error.message, 400);
     }
   }
 
   async ringkasan(req, res) {
     try {
       const data = await AktivitasService.ringkasan(req.user.id);
-      return res.status(200).json(berhasil('Ringkasan aktivitas harian berhasil diambil', data));
+      berhasil(res, data, 'Ringkasan aktivitas harian berhasil diambil');
     } catch (error) {
-      return res.status(500).json(gagal(error.message));
+      gagal(res, error.message, 500);
     }
   }
 }

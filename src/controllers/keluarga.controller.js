@@ -5,54 +5,54 @@ class KeluargaController {
   async daftarAnggota(req, res) {
     try {
       const data = await KeluargaService.getKeluarga(req.user.id);
-      return res.status(200).json(berhasil('Daftar keluarga berhasil diambil', data));
+      berhasil(res, data, 'Daftar keluarga berhasil diambil');
     } catch (error) {
-      return res.status(500).json(gagal(error.message));
+      gagal(res, error.message, 500);
     }
   }
 
   async tambahAnggota(req, res) {
     try {
       await KeluargaService.tambahAnggota(req.user.id, req.body);
-      return res.status(201).json(berhasil('Anggota keluarga berhasil ditambahkan'));
+      berhasil(res, null, 'Anggota keluarga berhasil ditambahkan', 201);
     } catch (error) {
-      return res.status(400).json(gagal(error.message));
+      gagal(res, error.message, 400);
     }
   }
 
   async detailAnggota(req, res) {
     try {
       const data = await KeluargaService.getDetail(req.user.id, req.params.id);
-      return res.status(200).json(berhasil('Detail anggota keluarga berhasil diambil', data));
+      berhasil(res, data, 'Detail anggota keluarga berhasil diambil');
     } catch (error) {
-      return res.status(404).json(gagal(error.message));
+      gagal(res, error.message, 404);
     }
   }
 
   async updateAnggota(req, res) {
     try {
       const data = await KeluargaService.updateAnggota(req.user.id, req.params.id, req.body);
-      return res.status(200).json(berhasil('Data anggota keluarga berhasil diperbarui', data));
+      berhasil(res, data, 'Data anggota keluarga berhasil diperbarui');
     } catch (error) {
-      return res.status(400).json(gagal(error.message));
+      gagal(res, error.message, 400);
     }
   }
 
   async hapusAnggota(req, res) {
     try {
       await KeluargaService.hapusAnggota(req.user.id, req.params.id);
-      return res.status(200).json(berhasil('Anggota keluarga berhasil dihapus'));
+      berhasil(res, null, 'Anggota keluarga berhasil dihapus');
     } catch (error) {
-      return res.status(400).json(gagal(error.message));
+      gagal(res, error.message, 400);
     }
   }
 
   async dataKesehatan(req, res) {
     try {
       const data = await KeluargaService.getKesehatan(req.user.id, req.params.id);
-      return res.status(200).json(berhasil('Data kesehatan anggota keluarga berhasil diambil', data));
+      berhasil(res, data, 'Data kesehatan anggota keluarga berhasil diambil');
     } catch (error) {
-      return res.status(400).json(gagal(error.message));
+      gagal(res, error.message, 400);
     }
   }
 }

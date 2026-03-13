@@ -5,45 +5,45 @@ class IkutiController {
   async ikuti(req, res) {
     try {
       await IkutiService.ikuti(req.user.id, req.params.pengguna_id);
-      return res.status(200).json(berhasil('Berhasil mengikuti pengguna'));
+      berhasil(res, null, 'Berhasil mengikuti pengguna');
     } catch (error) {
-      return res.status(400).json(gagal(error.message));
+      gagal(res, error.message, 400);
     }
   }
 
   async berhentiIkuti(req, res) {
     try {
       await IkutiService.berhentiIkuti(req.user.id, req.params.pengguna_id);
-      return res.status(200).json(berhasil('Berhasil berhenti mengikuti pengguna'));
+      berhasil(res, null, 'Berhasil berhenti mengikuti pengguna');
     } catch (error) {
-      return res.status(400).json(gagal(error.message));
+      gagal(res, error.message, 400);
     }
   }
 
   async pengikut(req, res) {
     try {
       const data = await IkutiService.daftarPengikut(req.user.id);
-      return res.status(200).json(berhasil('Daftar pengikut berhasil diambil', data));
+      berhasil(res, data, 'Daftar pengikut berhasil diambil');
     } catch (error) {
-      return res.status(500).json(gagal(error.message));
+      gagal(res, error.message, 500);
     }
   }
 
   async mengikuti(req, res) {
     try {
       const data = await IkutiService.daftarMengikuti(req.user.id);
-      return res.status(200).json(berhasil('Daftar mengikuti berhasil diambil', data));
+      berhasil(res, data, 'Daftar mengikuti berhasil diambil');
     } catch (error) {
-      return res.status(500).json(gagal(error.message));
+      gagal(res, error.message, 500);
     }
   }
 
   async status(req, res) {
     try {
       const mengikuti = await IkutiService.cekStatus(req.user.id, req.params.pengguna_id);
-      return res.status(200).json(berhasil('Status mengikuti berhasil diambil', { mengikuti }));
+      berhasil(res, { mengikuti }, 'Status mengikuti berhasil diambil');
     } catch (error) {
-      return res.status(500).json(gagal(error.message));
+      gagal(res, error.message, 500);
     }
   }
 }

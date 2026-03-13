@@ -8,9 +8,9 @@ class FaskesController {
       if (!lat || !lng) throw new Error('Koordinat (lat, lng) wajib diisi');
       
       const data = await FaskesService.faskesTerdekat(lat, lng, radius);
-      return res.status(200).json(berhasil('Daftar faskes terdekat berhasil diambil', data));
+      berhasil(res, data, 'Daftar faskes terdekat berhasil diambil');
     } catch (error) {
-      return res.status(400).json(gagal(error.message));
+      gagal(res, error.message, 400);
     }
   }
 
@@ -20,9 +20,9 @@ class FaskesController {
       if (!q) throw new Error('Keyword pencarian (q) wajib diisi');
       
       const data = await FaskesService.cariFaskes(q, lat || -6.200000, lng || 106.816666); // Default Jakarta jika lat/lng kosong
-      return res.status(200).json(berhasil('Hasil pencarian faskes berhasil diambil', data));
+      berhasil(res, data, 'Hasil pencarian faskes berhasil diambil');
     } catch (error) {
-      return res.status(400).json(gagal(error.message));
+      gagal(res, error.message, 400);
     }
   }
 
@@ -30,9 +30,9 @@ class FaskesController {
     try {
       const { alamat } = req.query;
       const data = await FaskesService.geocode(alamat);
-      return res.status(200).json(berhasil('Geocoding berhasil', data));
+      berhasil(res, data, 'Geocoding berhasil');
     } catch (error) {
-      return res.status(400).json(gagal(error.message));
+      gagal(res, error.message, 400);
     }
   }
 
@@ -40,9 +40,9 @@ class FaskesController {
     try {
       const { lat, lng } = req.query;
       const data = await FaskesService.reverseGeocode(lat, lng);
-      return res.status(200).json(berhasil('Reverse geocoding berhasil', data));
+      berhasil(res, data, 'Reverse geocoding berhasil');
     } catch (error) {
-      return res.status(400).json(gagal(error.message));
+      gagal(res, error.message, 400);
     }
   }
 }

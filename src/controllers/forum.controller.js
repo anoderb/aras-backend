@@ -7,18 +7,18 @@ class ForumController {
     try {
       const { q, kategori, status, halaman, per_halaman } = req.query;
       const { data, meta } = await ForumService.daftarPertanyaan({ q, kategori, status }, halaman, per_halaman);
-      return res.status(200).json({ status: true, kode: 200, pesan: 'Daftar pertanyaan berhasil diambil', data, meta });
+      berhasil(res, data, 'Daftar pertanyaan berhasil diambil', 200, meta);
     } catch (error) {
-      return res.status(500).json(gagal(error.message));
+      gagal(res, error.message, 500);
     }
   }
 
   async detail(req, res) {
     try {
       const data = await ForumService.detailPertanyaan(req.params.id);
-      return res.status(200).json(berhasil('Detail pertanyaan berhasil diambil', data));
+      berhasil(res, data, 'Detail pertanyaan berhasil diambil');
     } catch (error) {
-      return res.status(404).json(gagal(error.message));
+      gagal(res, error.message, 404);
     }
   }
 
@@ -26,27 +26,27 @@ class ForumController {
   async buat(req, res) {
     try {
       const data = await ForumService.buatPertanyaan(req.user.id, req.body);
-      return res.status(201).json(berhasil('Pertanyaan berhasil dibuat', data));
+      berhasil(res, data, 'Pertanyaan berhasil dibuat', 201);
     } catch (error) {
-      return res.status(400).json(gagal(error.message));
+      gagal(res, error.message, 400);
     }
   }
 
   async edit(req, res) {
     try {
       const data = await ForumService.editPertanyaan(req.params.id, req.user.id, req.body);
-      return res.status(200).json(berhasil('Pertanyaan berhasil diperbarui', data));
+      berhasil(res, data, 'Pertanyaan berhasil diperbarui');
     } catch (error) {
-      return res.status(400).json(gagal(error.message));
+      gagal(res, error.message, 400);
     }
   }
 
   async hapus(req, res) {
     try {
       await ForumService.hapusPertanyaan(req.params.id, req.user.id, req.user.peran);
-      return res.status(200).json(berhasil('Pertanyaan berhasil dihapus'));
+      berhasil(res, null, 'Pertanyaan berhasil dihapus');
     } catch (error) {
-      return res.status(400).json(gagal(error.message));
+      gagal(res, error.message, 400);
     }
   }
 
@@ -54,36 +54,36 @@ class ForumController {
   async tambahJawaban(req, res) {
     try {
       const id = await ForumService.tambahJawaban(req.params.id, req.user.id, req.user.peran, req.body);
-      return res.status(201).json(berhasil('Jawaban berhasil ditambahkan', { id }));
+      berhasil(res, { id }, 'Jawaban berhasil ditambahkan', 201);
     } catch (error) {
-      return res.status(400).json(gagal(error.message));
+      gagal(res, error.message, 400);
     }
   }
 
   async hapusJawaban(req, res) {
     try {
       await ForumService.hapusJawaban(req.params.jawaban_id, req.user.id, req.user.peran);
-      return res.status(200).json(berhasil('Jawaban berhasil dihapus'));
+      berhasil(res, null, 'Jawaban berhasil dihapus');
     } catch (error) {
-      return res.status(400).json(gagal(error.message));
+      gagal(res, error.message, 400);
     }
   }
 
   async setTerbaik(req, res) {
     try {
       await ForumService.tandaiJawabanTerbaik(req.params.id, req.params.jawaban_id, req.user.id);
-      return res.status(200).json(berhasil('Jawaban berhasil ditandai sebagai yang terbaik'));
+      berhasil(res, null, 'Jawaban berhasil ditandai sebagai yang terbaik');
     } catch (error) {
-      return res.status(400).json(gagal(error.message));
+      gagal(res, error.message, 400);
     }
   }
 
   async sukaJawaban(req, res) {
     try {
       const resData = await ForumService.sukJawaban(req.user.id, req.params.jawaban_id);
-      return res.status(200).json(berhasil(resData.liked ? 'Menyukai jawaban' : 'Batal menyukai jawaban', resData));
+      berhasil(res, resData, resData.liked ? 'Menyukai jawaban' : 'Batal menyukai jawaban');
     } catch (error) {
-      return res.status(400).json(gagal(error.message));
+      gagal(res, error.message, 400);
     }
   }
 }
