@@ -17,6 +17,7 @@ router.use('/program', require('./program.routes'));
 router.use('/second-opinion', require('./second-opinion.routes'));
 router.use('/artikel', require('./artikel.routes'));
 router.use('/diskusi', require('./diskusi.routes'));
+router.use('/forum', require('./forum.routes'));
 
 
 module.exports = router;
