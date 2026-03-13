@@ -1,5 +1,3 @@
-![ARAS Banner](file:///C:/Users/khamd/.gemini/antigravity/brain/b6769d65-3a2a-4bf0-a3d7-57bcc5fe6755/aras_banner_v1_1773397999897.png)
-
 # ARAS Backend — Akses Rawat Aman Sehat
 
 **ARAS** (Akses Rawat Aman Sehat) adalah platform ekosistem kesehatan digital yang menghubungkan pasien, dokter, dan fasilitas kesehatan. Backend ini menyediakan API yang tangguh, aman, dan scalable untuk mendukung ekosistem ARAS.
