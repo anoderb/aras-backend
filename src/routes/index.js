@@ -25,6 +25,8 @@ router.use('/faskes', require('./faskes.routes'));
 router.use('/sos', require('./sos.routes'));
 router.use('/mental-health', require('./mental-health.routes'));
 router.use('/kronis', require('./kronis.routes'));
+router.use('/langganan', require('./langganan.routes'));
+router.use('/admin', require('./admin.routes'));
 
 
 module.exports = router;
