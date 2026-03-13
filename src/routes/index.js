@@ -10,6 +10,7 @@ router.use('/nutrisi', require('./nutrisi.routes'));
 router.use('/aktivitas', require('./aktivitas.routes'));
 router.use('/obat', require('./obat.routes'));
 router.use('/dokumen', require('./dokumen.routes'));
+router.use('/dokter', require('./dokter.routes'));
 
 
 module.exports = router;
