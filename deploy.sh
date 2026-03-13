@@ -28,8 +28,8 @@ docker run -d \
   -v $(pwd)/firebase-service-account.json:/app/firebase-service-account.json \
   aras-backend
 
-echo ">> Jalankan migrasi database di dalam container..."
-docker exec aras-backend node database/migrate.js
+echo ">> [SKIP] Jalankan migrasi database di dalam container..."
+# docker exec aras-backend node database/migrate.js
 
 echo ">> Bersihkan image lama..."
 docker image prune -f
