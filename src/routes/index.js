@@ -15,6 +15,7 @@ router.use('/konsultasi', require('./konsultasi.routes'));
 router.use('/janji-temu', require('./janji-temu.routes'));
 router.use('/program', require('./program.routes'));
 router.use('/second-opinion', require('./second-opinion.routes'));
+router.use('/artikel', require('./artikel.routes'));
 
 
 module.exports = router;
