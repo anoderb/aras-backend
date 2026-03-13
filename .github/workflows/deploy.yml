@@ -20,8 +20,5 @@ jobs:
         key: ${{ secrets.SSH_PRIVATE_KEY }}
         port: ${{ secrets.PORT }}
         script: |
-          cd /var/www/aras-backend
-          git pull origin main
-          npm install --omit=dev
-          pm2 restart aras-api || pm2 start ecosystem.config.js
-          pm2 save
+          cd /opt/platform/projects/aras-backend
+          bash deploy.sh

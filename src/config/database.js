@@ -10,6 +10,7 @@ const pool = mysql.createPool({
   waitForConnections: true,
   connectionLimit: config.db.poolMax || 10,
   queueLimit: 0,
+  multipleStatements: true,
 });
 
 // Test Koneksi
