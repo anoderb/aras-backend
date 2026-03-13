@@ -12,6 +12,7 @@ router.use('/obat', require('./obat.routes'));
 router.use('/dokumen', require('./dokumen.routes'));
 router.use('/dokter', require('./dokter.routes'));
 router.use('/konsultasi', require('./konsultasi.routes'));
+router.use('/janji-temu', require('./janji-temu.routes'));
 
 
 module.exports = router;
