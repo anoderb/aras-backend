@@ -16,6 +16,7 @@ router.use('/janji-temu', require('./janji-temu.routes'));
 router.use('/program', require('./program.routes'));
 router.use('/second-opinion', require('./second-opinion.routes'));
 router.use('/artikel', require('./artikel.routes'));
+router.use('/diskusi', require('./diskusi.routes'));
 
 
 module.exports = router;
