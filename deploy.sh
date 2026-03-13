@@ -5,8 +5,9 @@ echo "=== Deploy ARAS Backend ==="
 
 cd /opt/platform/projects/aras-backend
 
-echo ">> Pull latest code..."
-git pull origin main
+echo ">> Pull latest code (Force Override Local Changes)..."
+git fetch origin main
+git reset --hard origin/main
 
 echo ">> Build Docker image..."
 docker build -t aras-backend .
