@@ -1,7 +1,6 @@
 const express = require('express');
 const cors = require('cors');
 const helmet = require('helmet');
-const morgan = require('morgan');
 const config = require('./config/app.config');
 const { gagal } = require('./helpers/response.helper');
 
@@ -12,7 +11,6 @@ const app = express();
 // Middleware Global
 app.use(helmet());
 app.use(loggerMiddleware); // Log request
-app.use(morgan('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
