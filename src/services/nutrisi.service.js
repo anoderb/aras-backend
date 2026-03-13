@@ -17,38 +17,37 @@ class NutrisiService {
     return await NutrisiRepository.tambah(userId, payload);
   }
 
-  async detail(userId, id) {
-    const record = await NutrisiRepository.findDetail(id, userId);
+  async ambilDetail(userId, id) {
+    const record = await NutrisiRepository.cariDetail(id, userId);
     if (!record) throw new Error('Data log makanan tidak ditemukan');
     return record;
   }
 
-  async update(userId, id, payload) {
-    const record = await NutrisiRepository.findDetail(id, userId);
+  async perbarui(userId, id, payload) {
+    const record = await NutrisiRepository.cariDetail(id, userId);
     if (!record) throw new Error('Data log makanan tidak ditemukan');
 
-    await NutrisiRepository.update(id, userId, payload);
-    return await this.detail(userId, id);
+    await NutrisiRepository.perbarui(id, userId, payload);
+    return await this.ambilDetail(userId, id);
   }
 
   async hapus(userId, id) {
-    const record = await NutrisiRepository.findDetail(id, userId);
+    const record = await NutrisiRepository.cariDetail(id, userId);
     if (!record) throw new Error('Data log makanan tidak ditemukan');
 
     await NutrisiRepository.hapus(id, userId);
     return true;
   }
 
-  async ringkasanHarian(userId) {
-    return await NutrisiRepository.ringkasanHarian(userId);
+  async ambilRingkasanHarian(userId) {
+    return await NutrisiRepository.ambilRingkasanHarian(userId);
   }
 
-  async grafik(userId) {
-    return await NutrisiRepository.grafik(userId, 7); // Default 7 hari
+  async ambilGrafik(userId) {
+    return await NutrisiRepository.ambilGrafik(userId, 7);
   }
 
   async cariMakanan(query) {
-    // Simulasi integrasi lokal/OpenFoodFacts
     return [
       { nama: "Nasi Goreng Spesial", porsi: 1, satuan: "porsi", kalori: 550, karbohidrat: 60, protein: 15, lemak: 20 },
       { nama: `Pencarian: ${query} (MOCK)`, porsi: 100, satuan: "gram", kalori: 200, karbohidrat: 20, protein: 5, lemak: 5 }
@@ -56,7 +55,6 @@ class NutrisiService {
   }
 
   async cariBarcode(kode) {
-    // Simulasi integrasi barcode OpenFoodFacts
     return {
       barcode: kode,
       nama: "Susu UHT Coklat Mock",

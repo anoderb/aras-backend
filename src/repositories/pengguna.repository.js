@@ -1,7 +1,7 @@
 const db = require('../config/database');
 
 class PenggunaRepository {
-  async findById(id) {
+  async cariBerdasarkanId(id) {
     const [rows] = await db.execute(
       `SELECT id, nama, email, no_telepon, peran, langganan, foto_profil, 
               tgl_lahir, jenis_kelamin, golongan_darah, alergi, kondisi_kronis, 
@@ -12,12 +12,12 @@ class PenggunaRepository {
     return rows[0];
   }
 
-  async findPasswordById(id) {
+  async cariSandiBerdasarkanId(id) {
     const [rows] = await db.execute('SELECT kata_sandi FROM pengguna WHERE id = ?', [id]);
     return rows[0];
   }
 
-  async updateProfil(id, data) {
+  async perbaruiProfil(id, data) {
     const allowedFields = [
       'nama', 'no_telepon', 'tgl_lahir', 'jenis_kelamin', 
       'golongan_darah', 'alergi', 'kondisi_kronis', 
@@ -42,12 +42,12 @@ class PenggunaRepository {
     return true;
   }
 
-  async updateFotoProfil(id, url) {
+  async perbaruiFotoProfil(id, url) {
     await db.execute('UPDATE pengguna SET foto_profil = ? WHERE id = ?', [url, id]);
     return true;
   }
 
-  async updateSandi(id, hashedSandi) {
+  async perbaruiSandi(id, hashedSandi) {
     await db.execute('UPDATE pengguna SET kata_sandi = ? WHERE id = ?', [hashedSandi, id]);
     return true;
   }
@@ -57,7 +57,7 @@ class PenggunaRepository {
     return true;
   }
 
-  async getDashboardData(id) {
+  async ambilDataDashboard(id) {
     // Return basic health data & total family members
     const [[{ total_keluarga }]] = await db.execute('SELECT COUNT(*) as total_keluarga FROM anggota_keluarga WHERE pemilik_id = ?', [id]);
     
@@ -66,7 +66,7 @@ class PenggunaRepository {
     };
   }
 
-  async getStatistik(id) {
+  async ambilStatistik(id) {
     // Return latest health records
     const [catatan] = await db.execute(
       'SELECT berat_badan, tekanan_darah_sistolik, tekanan_darah_diastolik, gula_darah, tgl_dicatat FROM catatan_kesehatan_harian WHERE pengguna_id = ? ORDER BY tgl_dicatat DESC LIMIT 7',

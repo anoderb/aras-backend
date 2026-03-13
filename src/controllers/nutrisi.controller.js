@@ -23,7 +23,7 @@ class NutrisiController {
 
   async detailMakanan(req, res) {
     try {
-      const data = await NutrisiService.detail(req.user.id, req.params.id);
+      const data = await NutrisiService.ambilDetail(req.user.id, req.params.id);
       berhasil(res, data, 'Detail makanan berhasil diambil');
     } catch (error) {
       gagal(res, error.message, 404);
@@ -32,7 +32,7 @@ class NutrisiController {
 
   async updateMakanan(req, res) {
     try {
-      const data = await NutrisiService.update(req.user.id, req.params.id, req.body);
+      const data = await NutrisiService.perbarui(req.user.id, req.params.id, req.body);
       berhasil(res, data, 'Log makanan berhasil diperbarui');
     } catch (error) {
       gagal(res, error.message, 400);
@@ -50,7 +50,7 @@ class NutrisiController {
 
   async ringkasanHarian(req, res) {
     try {
-      const data = await NutrisiService.ringkasanHarian(req.user.id);
+      const data = await NutrisiService.ambilRingkasanHarian(req.user.id);
       berhasil(res, data, 'Ringkasan nutrisi harian berhasil diambil');
     } catch (error) {
       gagal(res, error.message, 500);
@@ -59,7 +59,7 @@ class NutrisiController {
 
   async grafik(req, res) {
     try {
-      const data = await NutrisiService.grafik(req.user.id);
+      const data = await NutrisiService.ambilGrafik(req.user.id);
       berhasil(res, data, 'Grafik nutrisi berhasil diambil');
     } catch (error) {
       gagal(res, error.message, 500);

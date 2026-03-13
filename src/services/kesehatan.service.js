@@ -17,44 +17,42 @@ class KesehatanService {
     return await KesehatanRepository.tambah(userId, payload);
   }
 
-  async detail(userId, id) {
-    const record = await KesehatanRepository.findDetail(id, userId);
+  async ambilDetail(userId, id) {
+    const record = await KesehatanRepository.cariDetail(id, userId);
     if (!record) throw new Error('Data catatan kesehatan tidak ditemukan');
     return record;
   }
 
-  async update(userId, id, payload) {
-    const record = await KesehatanRepository.findDetail(id, userId);
+  async perbarui(userId, id, payload) {
+    const record = await KesehatanRepository.cariDetail(id, userId);
     if (!record) throw new Error('Data catatan kesehatan tidak ditemukan');
 
-    await KesehatanRepository.update(id, userId, payload);
-    return await this.detail(userId, id);
+    await KesehatanRepository.perbarui(id, userId, payload);
+    return await this.ambilDetail(userId, id);
   }
 
   async hapus(userId, id) {
-    const record = await KesehatanRepository.findDetail(id, userId);
+    const record = await KesehatanRepository.cariDetail(id, userId);
     if (!record) throw new Error('Data catatan kesehatan tidak ditemukan');
 
     await KesehatanRepository.hapus(id, userId);
     return true;
   }
 
-  async ringkasan(userId, rentangWaktu) {
+  async ambilRingkasan(userId, rentangWaktu) {
     let hari = 7;
     if (rentangWaktu === 'bulan') hari = 30;
     if (rentangWaktu === 'tahun') hari = 365;
 
-    return await KesehatanRepository.ringkasan(userId, hari);
+    return await KesehatanRepository.ambilRingkasan(userId, hari);
   }
 
-  async grafik(userId, rentangWaktu) {
+  async ambilGrafik(userId, rentangWaktu) {
     const filter = ['minggu', 'bulan', 'tahun'].includes(rentangWaktu) ? rentangWaktu : 'minggu';
-    return await KesehatanRepository.grafik(userId, filter);
+    return await KesehatanRepository.ambilGrafik(userId, filter);
   }
   
   async ekspor(userId) {
-    // Saat ini sekadar simulasi mock response sesuai rules
-    // Implementasi PDF generator seperti PDFKit bisa ditaruh di sini
     return { link_unduh: 'https://cdn.khamdanu.xyz/mock/report-kesehatan.pdf' };
   }
 }

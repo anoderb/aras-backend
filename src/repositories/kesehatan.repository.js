@@ -36,7 +36,7 @@ class KesehatanRepository {
     return { data: rows, total };
   }
 
-  async findDetail(id, penggunaId) {
+  async cariDetail(id, penggunaId) {
     const [rows] = await db.execute(
       'SELECT * FROM catatan_kesehatan_harian WHERE id = ? AND pengguna_id = ?',
       [id, penggunaId]
@@ -44,7 +44,7 @@ class KesehatanRepository {
     return rows[0];
   }
 
-  async update(id, pengunnaId, data) {
+  async perbarui(id, pengunnaId, data) {
     const allowedFields = [
       'berat_badan', 'tinggi_badan', 'tekanan_darah_sistolik', 'tekanan_darah_diastolik',
       'gula_darah', 'detak_jantung', 'suhu_tubuh', 'langkah_kaki', 'mood', 'catatan'
@@ -73,7 +73,7 @@ class KesehatanRepository {
     return true;
   }
 
-  async ringkasan(penggunaId, hariTerakhir = 7) {
+  async ambilRingkasan(penggunaId, hariTerakhir = 7) {
     const [rows] = await db.execute(
       `SELECT 
         AVG(berat_badan) as rata_berat_badan,
@@ -89,8 +89,7 @@ class KesehatanRepository {
     return rows[0];
   }
 
-  async grafik(penggunaId, filter) {
-    // filter = 'minggu', 'bulan', 'tahun'
+  async ambilGrafik(penggunaId, filter) {
     let interval = 7;
     let formatGroup = '%Y-%m-%d';
     
@@ -98,7 +97,7 @@ class KesehatanRepository {
       interval = 30;
     } else if (filter === 'tahun') {
       interval = 365;
-      formatGroup = '%Y-%m'; // group by month
+      formatGroup = '%Y-%m';
     }
 
     const [rows] = await db.execute(

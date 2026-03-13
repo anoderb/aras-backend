@@ -2,8 +2,8 @@ const ObatRepository = require('../repositories/obat.repository');
 const { buatPagination } = require('../helpers/pagination.helper');
 
 class ObatService {
-  async daftarAktif(userId) {
-    return await ObatRepository.daftarAktif(userId);
+  async ambilDaftarAktif(userId) {
+    return await ObatRepository.ambilDaftarAktif(userId);
   }
 
   async riwayat(userId, page = 1, limit = 10) {
@@ -21,22 +21,22 @@ class ObatService {
     return await ObatRepository.tambah(userId, payload);
   }
 
-  async detail(userId, id) {
-    const record = await ObatRepository.findDetail(id, userId);
+  async ambilDetail(userId, id) {
+    const record = await ObatRepository.cariDetail(id, userId);
     if (!record) throw new Error('Data obat tidak ditemukan');
     return record;
   }
 
-  async update(userId, id, payload) {
-    const record = await ObatRepository.findDetail(id, userId);
+  async perbarui(userId, id, payload) {
+    const record = await ObatRepository.cariDetail(id, userId);
     if (!record) throw new Error('Data obat tidak ditemukan');
 
-    await ObatRepository.update(id, userId, payload);
-    return await this.detail(userId, id);
+    await ObatRepository.perbarui(id, userId, payload);
+    return await this.ambilDetail(userId, id);
   }
 
   async hapus(userId, id) {
-    const record = await ObatRepository.findDetail(id, userId);
+    const record = await ObatRepository.cariDetail(id, userId);
     if (!record) throw new Error('Data obat tidak ditemukan');
 
     await ObatRepository.hapus(id, userId);
@@ -44,28 +44,27 @@ class ObatService {
   }
 
   async nonaktifkan(userId, id) {
-    const record = await ObatRepository.findDetail(id, userId);
+    const record = await ObatRepository.cariDetail(id, userId);
     if (!record) throw new Error('Data obat tidak ditemukan');
 
     return await ObatRepository.nonaktifkan(id, userId);
   }
 
-  async logMinum(userId, id, payload) {
-    const record = await ObatRepository.findDetail(id, userId);
+  async tambahLogMinum(userId, id, payload) {
+    const record = await ObatRepository.cariDetail(id, userId);
     if (!record) throw new Error('Data obat tidak ditemukan');
 
-    return await ObatRepository.logMinum(userId, id, payload);
+    return await ObatRepository.tambahLogMinum(userId, id, payload);
   }
 
-  async statistikKepatuhan(userId, id) {
-    const record = await ObatRepository.findDetail(id, userId);
+  async ambilStatistikKepatuhan(userId, id) {
+    const record = await ObatRepository.cariDetail(id, userId);
     if (!record) throw new Error('Data obat tidak ditemukan');
 
-    return await ObatRepository.statistikKepatuhan(id, userId);
+    return await ObatRepository.ambilStatistikKepatuhan(id, userId);
   }
 
   async cariObat(query) {
-    // Mock data pencarian obat (BPOM / OpenFDA simulation)
     return [
       { id: 1, nama: "Paracetamol 500mg", jenis: "Tablet", deskripsi: "Meredakan demam dan nyeri" },
       { id: 2, nama: `Hasil Pencarian: ${query} (MOCK)`, jenis: "Umum", deskripsi: "Deskripsi obat hasil simulasi" }
@@ -73,7 +72,6 @@ class ObatService {
   }
 
   async cariBarcode(kode) {
-    // Mock scan barcode obat
     return {
       barcode: kode,
       nama: "Amoxicillin 500mg (MOCK)",
@@ -82,7 +80,6 @@ class ObatService {
   }
 
   async cekInteraksi(obatIds) {
-    // Mock cek interaksi antar obat
     return {
       interaksi: [
         { level: "low", keterangan: "Tidak ditemukan interaksi berbahaya yang signifikan antar obat tersebut (Simulasi)" }

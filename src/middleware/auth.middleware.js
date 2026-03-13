@@ -12,7 +12,7 @@ const auth = (req, res, next) => {
 
   try {
     const terdecode = verifikasiToken(token);
-    req.pengguna = terdecode; // Menyimpan data pengguna ke request
+    req.user = terdecode; // Menyimpan data pengguna ke request
     next();
   } catch (err) {
     if (err.name === 'TokenExpiredError') {

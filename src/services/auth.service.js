@@ -1,11 +1,11 @@
 const AuthRepository = require('../repositories/auth.repository');
-const { hashPassword, comparePassword } = require('../helpers/bcrypt.helper');
-const { generateAccessToken, generateRefreshToken, verifyRefreshToken } = require('../helpers/jwt.helper');
+const bcryptHelper = require('../helpers/bcrypt.helper');
+const { buatToken, buatRefreshToken, verifikasiRefreshToken } = require('../helpers/jwt.helper');
 
 const AuthService = {
   daftar: async (data) => {
     // 1. Cek apakah pengguna sudah ada
-    const penggunaSudahAda = await AuthRepository.cariPenggunaByEmailAtauTelepon(data.email, data.no_telepon);
+    const penggunaSudahAda = await AuthRepository.cariEmailAtauTelepon(data.email, data.no_telepon);
     if (penggunaSudahAda) {
       if (penggunaSudahAda.email === data.email) {
         throw new Error('Email sudah terdaftar');
@@ -14,15 +14,14 @@ const AuthService = {
     }
 
     // 2. Hash kata sandi
-    const hashedPassword = await hashPassword(data.kata_sandi);
+    const hashedPassword = await bcryptHelper.hashSandi(data.kata_sandi);
 
     // 3. Simpan ke database
-    const penggunaId = await AuthRepository.buatPenggunaBaru({
+    const penggunaId = await AuthRepository.tambahPengguna({
       ...data,
       kata_sandi: hashedPassword
     });
 
-    // Karena fitur OTP dilewati, kita anggap langsung sukses
     return {
       id: penggunaId,
       nama: data.nama,
@@ -35,7 +34,7 @@ const AuthService = {
     const { email, kata_sandi } = data;
 
     // 1. Cek pengguna
-    const pengguna = await AuthRepository.cariPenggunaByEmail(email);
+    const pengguna = await AuthRepository.cariEmail(email);
     if (!pengguna) {
       throw new Error('Email atau kata sandi salah');
     }
@@ -46,7 +45,7 @@ const AuthService = {
     }
 
     // 3. Verifikasi sandi
-    const sandiCocok = await comparePassword(kata_sandi, pengguna.kata_sandi);
+    const sandiCocok = await bcryptHelper.cocokkanSandi(kata_sandi, pengguna.kata_sandi);
     if (!sandiCocok) {
       throw new Error('Email atau kata sandi salah');
     }
@@ -58,8 +57,8 @@ const AuthService = {
       email: pengguna.email
     };
 
-    const accessToken = generateAccessToken(payload);
-    const refreshToken = generateRefreshToken(payload);
+    const accessToken = buatToken(payload);
+    const refreshToken = buatRefreshToken(payload);
 
     return {
       pengguna: {
@@ -69,22 +68,21 @@ const AuthService = {
         peran: pengguna.peran,
         foto_profil: pengguna.foto_profil
       },
-      token: {
-        access_token: accessToken,
-        refresh_token: refreshToken
-      }
+      token: accessToken,
+      access_token: accessToken,
+      refresh_token: refreshToken
     };
   },
 
   refreshToken: async (tokenRefresh) => {
     // 1. Verifikasi token
-    const decoded = verifyRefreshToken(tokenRefresh);
+    const decoded = verifikasiRefreshToken(tokenRefresh);
     if (!decoded) {
       throw new Error('Refresh token tidak valid atau sudah kedaluwarsa');
     }
 
     // 2. Cek apakah pengguna masih ada
-    const pengguna = await AuthRepository.cariPenggunaById(decoded.id);
+    const pengguna = await AuthRepository.cariBerdasarkanId(decoded.id);
     if (!pengguna || !pengguna.status_aktif) {
       throw new Error('Pengguna tidak valid atau tidak aktif');
     }
@@ -96,8 +94,8 @@ const AuthService = {
       email: pengguna.email
     };
 
-    const accessToken = generateAccessToken(payload);
-    const newRefreshToken = generateRefreshToken(payload);
+    const accessToken = buatToken(payload);
+    const newRefreshToken = buatRefreshToken(payload);
 
     return {
       access_token: accessToken,
@@ -105,25 +103,19 @@ const AuthService = {
     };
   },
 
-  // Mock services untuk fitur yang dilewati
   keluar: async (penggunaId) => {
-    // Di aplikasi nyata, kita bisa tambahkan token ke Redis Blacklist di sini
     return true;
   },
 
   lupaSandi: async (email) => {
-    const pengguna = await AuthRepository.cariPenggunaByEmail(email);
+    const pengguna = await AuthRepository.cariEmail(email);
     if (!pengguna) {
       throw new Error('Email tidak terdaftar');
     }
-    // Mock: normalnya ini ngirim email berisi token reset.
-    // Kita simulasikan sukses saja.
     return { pesan: 'Instruksi reset sandi telah dikirim ke email (SIMULASI)' };
   },
 
   resetSandi: async (data) => {
-    // Mock: Di aplikasi nyata, token harus divalidasi dengan Redis/DB
-    // Karena disimulasikan, fitur ini tidak melakukan ubah sandi sungguhan tanpa validasi yang benar
     throw new Error('Fitur Reset Sandi sedang dinonaktifkan (Simulasi Modul)');
   },
 

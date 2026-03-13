@@ -22,7 +22,7 @@ class ObatRepository {
     return result.insertId;
   }
 
-  async daftarAktif(penggunaId) {
+  async ambilDaftarAktif(penggunaId) {
     const [rows] = await db.execute(
       'SELECT * FROM obat_pengguna WHERE pengguna_id = ? AND status_aktif = 1 ORDER BY tgl_dibuat DESC',
       [penggunaId]
@@ -51,7 +51,7 @@ class ObatRepository {
     };
   }
 
-  async findDetail(id, penggunaId) {
+  async cariDetail(id, penggunaId) {
     const [rows] = await db.execute(
       'SELECT * FROM obat_pengguna WHERE id = ? AND pengguna_id = ?',
       [id, penggunaId]
@@ -63,7 +63,7 @@ class ObatRepository {
     };
   }
 
-  async update(id, penggunaId, data) {
+  async perbarui(id, penggunaId, data) {
     const allowedFields = ['nama_obat', 'dokter_id', 'dosis', 'frekuensi', 'waktu_minum', 'tgl_mulai', 'tgl_selesai', 'catatan', 'status_aktif'];
     let updates = [];
     let values = [];
@@ -97,7 +97,7 @@ class ObatRepository {
     return true;
   }
 
-  async logMinum(penggunaId, obatId, data) {
+  async tambahLogMinum(penggunaId, obatId, data) {
     const query = `
       INSERT INTO log_minum_obat (obat_pengguna_id, pengguna_id, jadwal_minum, waktu_diminum, status)
       VALUES (?, ?, ?, ?, ?)
@@ -113,7 +113,7 @@ class ObatRepository {
     return true;
   }
 
-  async statistikKepatuhan(obatId, penggunaId) {
+  async ambilStatistikKepatuhan(obatId, penggunaId) {
     const [rows] = await db.execute(
       `SELECT status, COUNT(*) as jumlah 
        FROM log_minum_obat 

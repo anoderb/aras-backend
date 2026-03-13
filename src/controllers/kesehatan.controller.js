@@ -23,7 +23,7 @@ class KesehatanController {
 
   async detail(req, res) {
     try {
-      const data = await KesehatanService.detail(req.user.id, req.params.id);
+      const data = await KesehatanService.ambilDetail(req.user.id, req.params.id);
       berhasil(res, data, 'Detail catatan kesehatan berhasil diambil');
     } catch (error) {
       gagal(res, error.message, 404);
@@ -32,7 +32,7 @@ class KesehatanController {
 
   async update(req, res) {
     try {
-      const data = await KesehatanService.update(req.user.id, req.params.id, req.body);
+      const data = await KesehatanService.perbarui(req.user.id, req.params.id, req.body);
       berhasil(res, data, 'Catatan kesehatan berhasil diperbarui');
     } catch (error) {
       gagal(res, error.message, 400);
@@ -51,7 +51,7 @@ class KesehatanController {
   async grafik(req, res) {
     try {
       const rentang = req.query.rentang || 'minggu';
-      const data = await KesehatanService.grafik(req.user.id, rentang);
+      const data = await KesehatanService.ambilGrafik(req.user.id, rentang);
       berhasil(res, data, 'Grafik kesehatan berhasil diambil');
     } catch (error) {
       gagal(res, error.message, 500);
@@ -61,7 +61,7 @@ class KesehatanController {
   async ringkasan(req, res) {
     try {
       const rentang = req.query.rentang || 'minggu';
-      const data = await KesehatanService.ringkasan(req.user.id, rentang);
+      const data = await KesehatanService.ambilRingkasan(req.user.id, rentang);
       berhasil(res, data, 'Ringkasan kesehatan berhasil diambil');
     } catch (error) {
       gagal(res, error.message, 500);

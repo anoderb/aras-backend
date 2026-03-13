@@ -1,24 +1,24 @@
 const NotifikasiRepository = require('../repositories/notifikasi.repository');
 
 class NotifikasiService {
-  async daftarNotifikasi(penggunaId) {
-    return await NotifikasiRepository.findAllByPengguna(penggunaId);
+  async ambilDaftarNotifikasi(penggunaId) {
+    return await NotifikasiRepository.ambilSemuaBerdasarkanPengguna(penggunaId);
   }
 
-  async jumlahBelumDibaca(penggunaId) {
-    return await NotifikasiRepository.countUnread(penggunaId);
+  async hitungBelumDibaca(penggunaId) {
+    return await NotifikasiRepository.hitungBelumDibaca(penggunaId);
   }
 
-  async bacaNotifikasi(id, penggunaId) {
-    return await NotifikasiRepository.markAsRead(id, penggunaId);
+  async tandaiDibaca(id, penggunaId) {
+    return await NotifikasiRepository.tandaiDibaca(id, penggunaId);
   }
 
-  async bacaSemua(penggunaId) {
-    return await NotifikasiRepository.markAllAsRead(penggunaId);
+  async tandaiSemuaDibaca(penggunaId) {
+    return await NotifikasiRepository.tandaiSemuaDibaca(penggunaId);
   }
 
   async hapusNotifikasi(id, penggunaId) {
-    return await NotifikasiRepository.delete(id, penggunaId);
+    return await NotifikasiRepository.hapus(id, penggunaId);
   }
 }
 

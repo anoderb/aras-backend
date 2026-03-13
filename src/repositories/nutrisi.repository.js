@@ -28,7 +28,7 @@ class NutrisiRepository {
     return { data: rows, total };
   }
 
-  async findDetail(id, penggunaId) {
+  async cariDetail(id, penggunaId) {
     const [rows] = await db.execute(
       'SELECT * FROM log_makanan WHERE id = ? AND pengguna_id = ?',
       [id, penggunaId]
@@ -36,7 +36,7 @@ class NutrisiRepository {
     return rows[0];
   }
 
-  async update(id, penggunaId, data) {
+  async perbarui(id, penggunaId, data) {
     const allowedFields = [
       'nama_makanan', 'porsi', 'satuan_porsi', 'kalori', 
       'karbohidrat', 'protein', 'lemak', 'sumber_data', 
@@ -66,8 +66,7 @@ class NutrisiRepository {
     return true;
   }
 
-  async ringkasanHarian(penggunaId) {
-    // Get summary specifically for today
+  async ambilRingkasanHarian(penggunaId) {
     const [rows] = await db.execute(
       `SELECT 
         SUM(kalori) as total_kalori,
@@ -81,7 +80,7 @@ class NutrisiRepository {
     return rows[0];
   }
 
-  async grafik(penggunaId, hariTerakhir = 7) {
+  async ambilGrafik(penggunaId, hariTerakhir = 7) {
     const [rows] = await db.execute(
       `SELECT 
         DATE(tgl_dicatat) as tanggal,

@@ -4,7 +4,7 @@ const { berhasil, gagal } = require('../helpers/response.helper');
 class PenggunaController {
   async lihatProfil(req, res) {
     try {
-      const user = await PenggunaService.getProfil(req.user.id);
+      const user = await PenggunaService.lihatProfil(req.user.id);
       berhasil(res, user, 'Data profil berhasil diambil');
     } catch (error) {
       gagal(res, error.message, 404);
@@ -53,7 +53,7 @@ class PenggunaController {
 
   async dashboard(req, res) {
     try {
-      const data = await PenggunaService.getDashboard(req.user.id);
+      const data = await PenggunaService.ambilDashboard(req.user.id);
       berhasil(res, data, 'Data dashboard berhasil diambil');
     } catch (error) {
       gagal(res, error.message, 500);
@@ -62,7 +62,7 @@ class PenggunaController {
 
   async statistik(req, res) {
     try {
-      const data = await PenggunaService.getStatistik(req.user.id);
+      const data = await PenggunaService.ambilStatistik(req.user.id);
       berhasil(res, data, 'Data statistik berhasil diambil');
     } catch (error) {
       gagal(res, error.message, 500);

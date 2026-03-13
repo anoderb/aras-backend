@@ -1,7 +1,7 @@
 const db = require('../config/database');
 
 class NotifikasiRepository {
-  async findAllByPengguna(penggunaId, limit = 50) {
+  async ambilSemuaBerdasarkanPengguna(penggunaId, limit = 50) {
     const [rows] = await db.execute(
       `SELECT * FROM notifikasi 
        WHERE pengguna_id = ? 
@@ -11,7 +11,7 @@ class NotifikasiRepository {
     return rows;
   }
 
-  async countUnread(penggunaId) {
+  async hitungBelumDibaca(penggunaId) {
     const [[{ total }]] = await db.execute(
       'SELECT COUNT(*) as total FROM notifikasi WHERE pengguna_id = ? AND sudah_dibaca = FALSE',
       [penggunaId]
@@ -19,7 +19,7 @@ class NotifikasiRepository {
     return total;
   }
 
-  async markAsRead(id, penggunaId) {
+  async tandaiDibaca(id, penggunaId) {
     await db.execute(
       'UPDATE notifikasi SET sudah_dibaca = TRUE WHERE id = ? AND pengguna_id = ?',
       [id, penggunaId]
@@ -27,7 +27,7 @@ class NotifikasiRepository {
     return true;
   }
 
-  async markAllAsRead(penggunaId) {
+  async tandaiSemuaDibaca(penggunaId) {
     await db.execute(
       'UPDATE notifikasi SET sudah_dibaca = TRUE WHERE pengguna_id = ?',
       [penggunaId]
@@ -35,7 +35,7 @@ class NotifikasiRepository {
     return true;
   }
 
-  async delete(id, penggunaId) {
+  async hapus(id, penggunaId) {
     await db.execute(
       'DELETE FROM notifikasi WHERE id = ? AND pengguna_id = ?',
       [id, penggunaId]
@@ -43,7 +43,7 @@ class NotifikasiRepository {
     return true;
   }
 
-  async create(data) {
+  async buat(data) {
     const { pengguna_id, judul, pesan, tipe, referensi_tipe, referensi_id } = data;
     await db.execute(
       `INSERT INTO notifikasi (pengguna_id, judul, pesan, tipe, referensi_tipe, referensi_id) 

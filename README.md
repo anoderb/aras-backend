@@ -1,58 +1,73 @@
+![ARAS Banner](file:///C:/Users/khamd/.gemini/antigravity/brain/b6769d65-3a2a-4bf0-a3d7-57bcc5fe6755/aras_banner_v1_1773397999897.png)
+
 # ARAS Backend — Akses Rawat Aman Sehat
 
-Backend API untuk aplikasi kesehatan ARAS. Dibangun menggunakan Node.js dengan arsitektur layered (Controller -> Service -> Repository).
+**ARAS** (Akses Rawat Aman Sehat) adalah platform ekosistem kesehatan digital yang menghubungkan pasien, dokter, dan fasilitas kesehatan. Backend ini menyediakan API yang tangguh, aman, dan scalable untuk mendukung ekosistem ARAS.
 
-## 🚀 Teknologi Utama
-- **Runtime**: Node.js
-- **Framework**: Express.js
-- **Database**: MySQL 8.0 (mysql2)
-- **Caching**: Redis (ioredis)
-- **Realtime**: Socket.IO
-- **Storage**: Cloudinary
-- **Auth**: JWT (JSON Web Token)
-- **Validation**: Joi
-- **Logger**: Winston + Morgan
-- **Security**: Helmet, Bcrypt
+## ✨ Fitur Utama
 
-## 📁 Struktur Folder
+- **Autentikasi & Keamanan**: Registrasi, Login (JWT), Verifikasi OTP, dan Reset Sandi.
+- **Catatan Kesehatan (EMR)**: Log harian kesehatan (berat badan, tekanan darah, gula darah, dll) dengan visualisasi grafik.
+- **Nutrisi & Aktivitas**: Kalkulator kalori harian, log makanan (barcode support), dan log aktivitas fisik.
+- **Manajemen Obat**: Pengingat minum obat, cek interaksi obat, dan statistik kepatuhan.
+- **Telemedis & Konsultasi**: Chat realtime dengan dokter, manajemen resep digital, dan rating dokter.
+- **Komunitas & Diskusi**: Forum Q&A kesehatan dan feed diskusi publik dengan moderasi dokter.
+
+## 🛠️ Arsitektur & Teknologi
+
+Aplikasi ini dibangun menggunakan arsitektur **Layered (Route → Controller → Service → Repository)** untuk memastikan pemisahan tanggung jawab yang bersih.
+
+### Tech Stack
+- **Runtime**: [Node.js](https://nodejs.org/)
+- **Framework**: [Express.js](https://expressjs.com/)
+- **Database**: [MySQL 8.0](https://www.mysql.com/)
+- **Caching**: [Redis](https://redis.io/)
+- **Realtime**: [Socket.IO](https://socket.io/)
+- **Storage**: [Cloudinary](https://cloudinary.com/) (Media & Document Storage)
+
+## 📁 Struktur Proyek
 ```text
 src/
-├── config/       # Konfigurasi database, redis, socket, dll
-├── routes/       # Definisi endpoint API
-├── controllers/  # Layer penanganan request/response
-├── services/     # Layer logika bisnis (core logic)
-├── repositories/ # Layer query database (raw sql)
-├── middleware/   # Proteksi (auth, role, upload, dll)
-├── helpers/      # Fungsi utilitas (response, jwt, etc)
-├── constants/    # Master data statis
-├── integrations/ # Koneksi API pihak ketiga (Email, WA)
-└── socket/       # Penanganan event socket.io
-database/
-├── migrations/   # 28 tabel skema database (SQL)
-└── migrate.js    # Script runner migrasi otomatis
+├── routes/       # Definisi endpoint & middleware routing
+├── controllers/  # Penanganan request/response API
+├── services/     # Logika bisnis utama (Core Logic)
+├── repositories/ # Query database terpusat
+├── middleware/   # Keamanan & filter (Auth, Role, Upload)
+├── integrations/ # Koneksi pihak ketiga (WA, Email, FDA)
+└── database/     # Skema database & migrasi SQL
 ```
 
-## ⚙️ Persiapan Lokal
-1. Install Dependensi:
-   ```bash
-   npm install
-   ```
-2. Setup Environment Variables:
-   - Salin `.env.example` menjadi `.env`
-   - Isi kredensial yang diperlukan (MySQL, Redis, Cloudinary, etc)
-3. Jalankan Migrasi Database:
-   ```bash
-   node database/migrate.js
-   ```
-4. Jalankan Server:
-   - Mode Development: `npm run dev`
-   - Mode Production: `npm start`
+## ⚡ Quick Start API Reference
 
-## 🛡️ Aturan Pengembangan
-- Gunakan Bahasa Indonesia untuk penamaan variabel, fungsi, dan komentar.
-- Ikuti standar layered architecture (Jangan query DB di Controller).
-- Pastikan setiap input divalidasi menggunakan Joi middleware.
-- Gunakan `response.helper` untuk format kembalian JSON yang seragam.
+| Method | Endpoint | Keterangan |
+|---|---|---|
+| `POST` | `/api/v1/auth/masuk` | Login & dapatkan token |
+| `GET` | `/api/v1/pengguna/dashboard` | Ambil ringkasan dashboard |
+| `GET` | `/api/v1/kesehatan/harian` | Riwayat kesehatan user |
+| `GET` | `/api/v1/obat` | Daftar obat aktif |
+| `GET` | `/api/v1/notifikasi` | Daftar notifikasi terbaru |
+
+## 📊 Kode Respon API
+
+ARAS menggunakan kode respon HTTP standar untuk menandakan status permintaan API:
+
+| Kode | Keterangan |
+|---|---|
+| **200** | **Berhasil**: Permintaan sukses dan data dikembalikan. |
+| **201** | **Berhasil Dibuat**: Data baru berhasil disimpan ke database. |
+| **400** | **Request Tidak Valid**: Parameter input salah atau tidak lengkap. |
+| **401** | **Tidak Terautentikasi**: Token JWT tidak valid atau sudah kedaluwarsa. |
+| **403** | **Tidak Punya Akses**: Anda tidak memiliki izin untuk akses ini (role mismatch). |
+| **404** | **Data Tidak Ditemukan**: Endpoint atau ID data tidak tersedia. |
+| **429** | **Terlalu Banyak Request**: Batas rate limit telah tercapai. |
+| **500** | **Kesalahan Server**: Terjadi masalah internal pada server. |
+
+## ⚙️ Persiapan Lokal
+
+1. **Install Dependensi**: `npm install`
+2. **Environment Variable**: Salin `.env.example` menjadi `.env` dan isi kredensial.
+3. **Migrasi Database**: `node database/migrate.js`
+4. **Jalankan Server**: `npm run dev`
 
 ---
-© 2026 ARAS Project - Kesehatan Mudah, Hidup Lebih Baik.
+© 2026 ARAS Project - *Kesehatan Mudah, Hidup Lebih Baik.*
