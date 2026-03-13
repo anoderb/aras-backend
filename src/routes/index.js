@@ -19,6 +19,10 @@ router.use('/artikel', require('./artikel.routes'));
 router.use('/diskusi', require('./diskusi.routes'));
 router.use('/forum', require('./forum.routes'));
 router.use('/ikuti', require('./ikuti.routes'));
+router.use('/badge', require('./badge.routes'));
+router.use('/notifikasi', require('./notifikasi.routes'));
+router.use('/faskes', require('./faskes.routes'));
+router.use('/sos', require('./sos.routes'));
 
 
 module.exports = router;
