@@ -8,6 +8,8 @@ router.use('/keluarga', require('./keluarga.routes'));
 router.use('/kesehatan', require('./kesehatan.routes'));
 router.use('/nutrisi', require('./nutrisi.routes'));
 router.use('/aktivitas', require('./aktivitas.routes'));
+router.use('/obat', require('./obat.routes'));
+router.use('/dokumen', require('./dokumen.routes'));
 
 
 module.exports = router;
