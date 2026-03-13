@@ -4,8 +4,8 @@ const config = require('./app.config');
 const pool = mysql.createPool({
   host: config.db.host,
   user: config.db.user,
-  password: config.db.password,
-  database: config.db.name,
+  password: config.db.pass,
+  database: config.db.nama,
   port: config.db.port,
   waitForConnections: true,
   connectionLimit: config.db.poolMax || 10,
