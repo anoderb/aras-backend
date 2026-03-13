@@ -6,8 +6,8 @@ class KronisRepository {
       `SELECT tgl_dicatat, berat_badan, tekanan_darah_sistolik, tekanan_darah_diastolik, gula_darah, detak_jantung
        FROM catatan_kesehatan_harian
        WHERE pengguna_id = ?
-       ORDER BY tgl_dicatat DESC LIMIT ?`,
-      [penggunaId, limit]
+       ORDER BY tgl_dicatat DESC LIMIT ${parseInt(limit)}`,
+      [penggunaId]
     );
     return rows;
   }

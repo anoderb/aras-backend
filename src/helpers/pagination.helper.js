@@ -2,7 +2,7 @@ const hitungOffset = (halaman = 1, perHalaman = 10) => {
   return (parseInt(halaman) - 1) * parseInt(perHalaman);
 };
 
-const buatMeta = (halaman = 1, perHalaman = 10, total = 0) => {
+const buatPagination = (halaman = 1, perHalaman = 10, total = 0) => {
   return {
     halaman: parseInt(halaman),
     per_halaman: parseInt(perHalaman),
@@ -11,4 +11,4 @@ const buatMeta = (halaman = 1, perHalaman = 10, total = 0) => {
   };
 };
 
-module.exports = { hitungOffset, buatMeta };
+module.exports = { hitungOffset, buatPagination };

@@ -18,8 +18,8 @@ class NutrisiRepository {
 
   async riwayatPaging(penggunaId, limit, offset) {
     const [rows] = await db.execute(
-      `SELECT * FROM log_makanan WHERE pengguna_id = ? ORDER BY tgl_dicatat DESC LIMIT ? OFFSET ?`,
-      [penggunaId, limit, offset]
+      `SELECT * FROM log_makanan WHERE pengguna_id = ? ORDER BY tgl_dicatat DESC LIMIT ${parseInt(limit)} OFFSET ${parseInt(offset)}`,
+      [penggunaId]
     );
     const [[{ total }]] = await db.execute(
       `SELECT COUNT(*) as total FROM log_makanan WHERE pengguna_id = ?`,

@@ -17,8 +17,8 @@ class MentalHealthRepository {
       `SELECT mood, tgl_dicatat 
        FROM catatan_kesehatan_harian 
        WHERE pengguna_id = ? AND mood IS NOT NULL 
-       ORDER BY tgl_dicatat DESC LIMIT ?`,
-      [penggunaId, limit]
+       ORDER BY tgl_dicatat DESC LIMIT ${parseInt(limit)}`,
+      [penggunaId]
     );
     return rows;
   }

@@ -24,8 +24,8 @@ class ArtikelRepository {
       params.push(query.kategori);
     }
 
-    sql += ` ORDER BY a.tgl_terbit DESC LIMIT ? OFFSET ?`;
-    const rowsParams = [...params, limit, offset];
+    sql += ` ORDER BY a.tgl_terbit DESC LIMIT ${parseInt(limit)} OFFSET ${parseInt(offset)}`;
+    const rowsParams = [...params];
 
     const [rows] = await db.execute(sql, rowsParams);
     const [[{ total }]] = await db.execute(countSql, params);
@@ -40,8 +40,7 @@ class ArtikelRepository {
        JOIN profil_dokter p ON a.dokter_id = p.id
        JOIN pengguna u ON p.pengguna_id = u.id
        WHERE a.status = 'diterbitkan'
-       ORDER BY a.total_dibaca DESC LIMIT ?`,
-      [limit]
+       ORDER BY a.total_dibaca DESC LIMIT ${limit}`
     );
     return rows;
   }

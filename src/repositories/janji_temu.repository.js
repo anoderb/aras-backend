@@ -32,8 +32,8 @@ class JanjiTemuRepository {
        JOIN profil_dokter pd ON jt.dokter_id = pd.id
        JOIN pengguna u_d ON pd.pengguna_id = u_d.id
        WHERE jt.pengguna_id = ?
-       ORDER BY jt.tgl_jadwal DESC LIMIT ? OFFSET ?`,
-      [penggunaId, limit, offset]
+       ORDER BY jt.tgl_jadwal DESC LIMIT ${parseInt(limit)} OFFSET ${parseInt(offset)}`,
+      [penggunaId]
     );
     const [[{ total }]] = await db.execute('SELECT COUNT(*) as total FROM janji_temu WHERE pengguna_id = ?', [penggunaId]);
     return { data: rows, total };
@@ -45,8 +45,8 @@ class JanjiTemuRepository {
        FROM janji_temu jt
        JOIN pengguna p ON jt.pengguna_id = p.id
        WHERE jt.dokter_id = ?
-       ORDER BY jt.tgl_jadwal DESC LIMIT ? OFFSET ?`,
-      [dokterId, limit, offset]
+       ORDER BY jt.tgl_jadwal DESC LIMIT ${parseInt(limit)} OFFSET ${parseInt(offset)}`,
+      [dokterId]
     );
     const [[{ total }]] = await db.execute('SELECT COUNT(*) as total FROM janji_temu WHERE dokter_id = ?', [dokterId]);
     return { data: rows, total };

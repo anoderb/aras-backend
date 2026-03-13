@@ -26,8 +26,8 @@ class KesehatanRepository {
 
   async riwayatPaging(penggunaId, limit, offset) {
     const [rows] = await db.execute(
-      `SELECT * FROM catatan_kesehatan_harian WHERE pengguna_id = ? ORDER BY tgl_dicatat DESC LIMIT ? OFFSET ?`,
-      [penggunaId, limit, offset]
+      `SELECT * FROM catatan_kesehatan_harian WHERE pengguna_id = ? ORDER BY tgl_dicatat DESC LIMIT ${parseInt(limit)} OFFSET ${parseInt(offset)}`,
+      [penggunaId]
     );
     const [[{ total }]] = await db.execute(
       `SELECT COUNT(*) as total FROM catatan_kesehatan_harian WHERE pengguna_id = ?`,

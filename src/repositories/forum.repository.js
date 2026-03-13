@@ -30,8 +30,8 @@ class ForumRepository {
       params.push(query.status);
     }
 
-    sql += ` ORDER BY fp.tgl_dibuat DESC LIMIT ? OFFSET ?`;
-    const rowsParams = [...params, limit, offset];
+    sql += ` ORDER BY fp.tgl_dibuat DESC LIMIT ${parseInt(limit)} OFFSET ${parseInt(offset)}`;
+    const rowsParams = [...params];
 
     const [rows] = await db.execute(sql, rowsParams);
     const [[{ total }]] = await db.execute(countSql, params);

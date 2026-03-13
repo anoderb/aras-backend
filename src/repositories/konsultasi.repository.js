@@ -32,8 +32,8 @@ class KonsultasiRepository {
        JOIN profil_dokter pd ON k.dokter_id = pd.id
        JOIN pengguna u_d ON pd.pengguna_id = u_d.id
        WHERE k.pengguna_id = ?
-       ORDER BY k.tgl_dibuat DESC LIMIT ? OFFSET ?`,
-      [penggunaId, limit, offset]
+       ORDER BY k.tgl_dibuat DESC LIMIT ${parseInt(limit)} OFFSET ${parseInt(offset)}`,
+      [penggunaId]
     );
     const [[{ total }]] = await db.execute('SELECT COUNT(*) as total FROM konsultasi WHERE pengguna_id = ?', [penggunaId]);
     return { data: rows, total };
@@ -53,8 +53,8 @@ class KonsultasiRepository {
       params.push(status);
     }
     
-    sql += ` ORDER BY k.tgl_dibuat DESC LIMIT ? OFFSET ?`;
-    const rowsParams = [...params, limit, offset];
+    sql += ` ORDER BY k.tgl_dibuat DESC LIMIT ${parseInt(limit)} OFFSET ${parseInt(offset)}`;
+    const rowsParams = [...params];
     
     const [rows] = await db.execute(sql, rowsParams);
     

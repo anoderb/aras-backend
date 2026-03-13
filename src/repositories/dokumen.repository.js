@@ -30,8 +30,8 @@ class DokumenRepository {
       params.push(filter.jenis);
     }
 
-    query += ' ORDER BY tgl_dokumen DESC LIMIT ? OFFSET ?';
-    const rowParams = [...params, limit, offset];
+    query += ` ORDER BY tgl_dokumen DESC LIMIT ${parseInt(limit)} OFFSET ${parseInt(offset)}`;
+    const rowParams = [...params];
 
     const [rows] = await db.execute(query, rowParams);
     const [[{ total }]] = await db.execute(countQuery, params);

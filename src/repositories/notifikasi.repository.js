@@ -5,8 +5,8 @@ class NotifikasiRepository {
     const [rows] = await db.execute(
       `SELECT * FROM notifikasi 
        WHERE pengguna_id = ? 
-       ORDER BY tgl_dibuat DESC LIMIT ?`,
-      [penggunaId, limit]
+       ORDER BY tgl_dibuat DESC LIMIT ${parseInt(limit)}`,
+      [penggunaId]
     );
     return rows;
   }

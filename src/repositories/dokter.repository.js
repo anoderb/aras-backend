@@ -27,8 +27,8 @@ class DokterRepository {
       params.push(query.spesialisasi);
     }
 
-    sql += ` ORDER BY pd.rating DESC, pd.total_konsultasi DESC LIMIT ? OFFSET ?`;
-    const rowsParams = [...params, limit, offset];
+    sql += ` ORDER BY pd.rating DESC, pd.total_konsultasi DESC LIMIT ${parseInt(limit)} OFFSET ${parseInt(offset)}`;
+    const rowsParams = [...params];
 
     const [rows] = await db.execute(sql, rowsParams);
     const [[{ total }]] = await db.execute(countSql, params.length > 2 ? params.slice(0, 2) : params);

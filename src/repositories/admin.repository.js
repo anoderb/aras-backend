@@ -13,10 +13,8 @@ class AdminRepository {
 
   // Pengguna
   async findAllPengguna(limit, offset) {
-    const [rows] = await db.execute(
-      'SELECT id, nama, email, peran, status_aktif, tgl_daftar FROM pengguna ORDER BY tgl_daftar DESC LIMIT ? OFFSET ?',
-      [limit, offset]
-    );
+    let sql = `SELECT id, nama, email, peran, status_aktif, tgl_daftar FROM pengguna ORDER BY tgl_daftar DESC LIMIT ${parseInt(limit)} OFFSET ${parseInt(offset)}`;
+    const [rows] = await db.execute(sql, []);
     return rows;
   }
 

@@ -35,8 +35,8 @@ class ObatRepository {
 
   async riwayatPaging(penggunaId, limit, offset) {
     const [rows] = await db.execute(
-      'SELECT * FROM obat_pengguna WHERE pengguna_id = ? ORDER BY tgl_dibuat DESC LIMIT ? OFFSET ?',
-      [penggunaId, limit, offset]
+      'SELECT * FROM obat_pengguna WHERE pengguna_id = ? ORDER BY tgl_dibuat DESC LIMIT ' + parseInt(limit) + ' OFFSET ' + parseInt(offset),
+      [penggunaId]
     );
     const [[{ total }]] = await db.execute(
       'SELECT COUNT(*) as total FROM obat_pengguna WHERE pengguna_id = ?',
